@@ -1,0 +1,46 @@
+.spacer {
+    flex: 1 1 auto;
+  }
+.name {
+  
+  font-size: 20px;
+  color: rgb(130, 216, 206);
+}
+.name2 {
+  color: gray;
+  font-weight: bold;
+}
+button {
+  font-family: 'Times New Roman', Times, serif;
+
+}
+
+.titleSlide {
+  border-radius: 50px;
+  left: 0px;
+  animation-name: title;
+  animation-duration: 2s;
+  animation-timing-function: ease-out;
+}
+
+.navButtons{
+  animation-name: navBs;
+  animation-duration: 3s;
+  animation-timing-function: ease-out;
+}
+.navButtons2{
+  animation-name: navBs;
+  animation-duration: 4s;
+  animation-timing-function: ease-out;
+}
+
+
+@keyframes title {
+  0% {left: -150px; opacity: 0%;}
+  100% {left: 0px; opacity: 100%;}
+}
+
+@keyframes navBs{
+  0% {bottom: 100px; opacity: 0%;}
+  100% {bottom: 0px; opacity: 100%;}
+}

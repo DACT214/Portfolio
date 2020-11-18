@@ -1,0 +1,30 @@
+
+.calWrap{
+    border: solid black thin;
+    margin: 10px 5% 10px 5%;
+    height: fit-content;
+
+}
+.dateWrap{
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 25px;
+    font-weight: bold;
+    text-align: center;
+    margin: 10px auto;
+    position: relative;
+    width: 50%;
+    height: 200px;
+    border: solid black thin;
+    background-color: blanchedalmond;
+}
+.daysWrap{
+    height: 600px;
+    background-color: brown;
+    border: solid black thin;
+}
+.days{
+    
+    background-color: cadetblue;
+    height: 100px;
+    width: calc(100% / 7);
+}

@@ -1,0 +1,21 @@
+<app-navbar-alt></app-navbar-alt>
+
+<div class="formWrapper">
+    <mat-form-field appearance="legacy">
+      <mat-label>Subject</mat-label>
+      <input matInput [(ngModel)]="hi" placeholder="Hello!" name="subject">
+    </mat-form-field>
+    <br>
+    <br>
+
+    <mat-form-field appearance="legacy" style="width: 100%;">
+      <mat-label>Messsage</mat-label>
+      <textarea matInput [(ngModel)]="mess" placeholder="blah blah blah" name="message"></textarea>
+    </mat-form-field>
+    <br>
+    <br>
+
+
+    <button mat-stroked-button type="submit" (click)="onSubmit()">Submit</button>
+
+  </div>

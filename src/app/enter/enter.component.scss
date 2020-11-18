@@ -1,0 +1,120 @@
+
+
+html, body {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0px 4%;
+}
+
+
+.spacer {
+    flex: 1 1 auto;
+  }
+.divider{
+        margin: 0%;
+        position: relative;
+        width: 0%;
+        height: 100%;
+        left: 50%; right: 50%;
+        border-left: 2px solid rgb(130, 216, 206);
+
+}
+
+
+.cardsL {
+    background-color: rgb(238, 236, 236);
+    position: relative;
+    margin: 10px;
+    width: 40%;
+    height: 500px;
+    animation-name: slideL;
+    animation-duration: 3s;
+    box-shadow: -15px 6px 10px rgba(0, 0, 0, 0.442);
+}
+
+.cardsR {
+    background-color: rgb(238, 236, 236);
+    position: relative;
+    margin: 10px;
+    width: 40%;
+    height: 500px;
+    animation-name: slideR;
+    animation-duration: 7s;
+    box-shadow: -15px 6px 10px rgba(0, 0, 0, 0.442);
+}
+
+.cardsL2 {
+    background-color: rgb(238, 236, 236);
+    position: relative;
+    margin: 10px;
+    width: 40%;
+    height: 500px;
+    animation-name: slideL;
+    animation-duration: 10s;
+    box-shadow: -15px 6px 10px rgba(0, 0, 0, 0.442);
+}
+
+.cardsR2 {
+    background-color: rgb(238, 236, 236);
+    position: relative;
+    margin: 10px;
+    width: 40%;
+    height: 500px;
+    animation-name: slideR;
+    animation-duration: 11s;
+    box-shadow: -15px 6px 10px rgba(0, 0, 0, 0.442);
+}
+
+
+
+
+@keyframes slideL{
+    0%{left: -50%; box-shadow: -30px 6px 10px rgba(0, 0, 0, 0.442);}
+    100%{left: 0px; box-shadow: -15px 6px 10px rgba(0, 0, 0, 0.442);}
+}
+@keyframes slideR{
+    0%{right: -50%; box-shadow: -7px 6px 10px rgba(0, 0, 0, 0.442);}
+    100%{right: 0px; box-shadow: -15px 6px 10px rgba(0, 0, 0, 0.442);}
+}
+
+
+.avatar {
+    height: 50px;
+    width: 50px;
+    background-color: rgb(180, 228, 215);
+    border-radius: 50%;
+    margin: 5px;
+    box-shadow: -5px 2px 3px rgba(0, 0, 0, 0.442);
+}
+
+h1 {
+    font-family: 'Times New Roman', Times, serif;
+    font-variant: small-caps;
+    top: 5px;
+    position: relative;
+    border-bottom-style: dotted;
+    border-width: thin;
+    margin: 5px;
+    height: fit-content;
+
+}
+p {
+    margin: 5px 10px;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 16px;
+    text-align: justify;
+}
+
+mat-chip-list {
+    position: relative;
+    top: 5px;
+    left: 5px;
+}
+
+mat-chip:hover{
+    background-color: seashell;
+}
+
+.mat-chip.mat-standard-chip::after{
+    background-color: seashell;
+}

@@ -1,0 +1,69 @@
+.ani {
+    animation-name: open, bounce;
+    animation-duration: 2s, 1s;
+    animation-delay: 0s, 2s;
+    animation-iteration-count: 1, infinite;
+
+
+    display: block;
+    width: 200px;
+    height: 200px;
+    background-color: rgb(130, 216, 206);
+    border-radius: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0px;
+    margin-top: 100px;
+}
+.shadow{
+    animation-name: openS, bounceS;
+    animation-duration: 2s, 1s;
+    animation-delay: 0s, 2s;
+    animation-iteration-count: 1, infinite;
+
+
+
+    display: block;
+    width: 180px;
+    height: 5px;
+    background-color:rgba(0, 0, 0, 0.177);
+    border-radius: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 10px;
+    margin-top: 10px;
+}
+img {
+    animation-name: open;
+    animation-duration: 2s;
+
+    display: block;
+    width: 200px;
+    height: 200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+@keyframes open {
+    0% {height: 0%; width: 0%;}
+    100% {height: 200px; width: 200px;}
+
+}
+@keyframes openS{
+    0% {height: 0%; width: 0%; margin-top: 200px;}
+    100% {height: 5px; width: 180px; margin-top: 10px;}
+}
+
+@keyframes bounce{
+
+0% {bottom: 0px;}
+50% {bottom: 10px;}
+100% {bottom: 0px}
+    
+}
+
+@keyframes bounceS{
+    0% {width: 180px;}
+    50% {width: 150px;}
+    100% {width: 180px;}
+}
+
