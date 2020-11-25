@@ -1,30 +1,50 @@
 
 .calWrap{
-    border: solid black thin;
+    
     margin: 10px 5% 10px 5%;
     height: fit-content;
 
 }
 .dateWrap{
+    padding-top: 20px;
     font-family: 'Times New Roman', Times, serif;
     font-size: 25px;
-    font-weight: bold;
+    font-weight: lighter;
     text-align: center;
     margin: 10px auto;
     position: relative;
     width: 50%;
-    height: 200px;
-    border: solid black thin;
-    background-color: blanchedalmond;
+    height: 50px;
+    border-radius: 5px;
+    box-shadow: -5px 5px 10px rgb(57, 87, 176);
+    background-color: rgba(205, 255, 249, 0.163);
 }
 .daysWrap{
-    height: 600px;
-    background-color: brown;
-    border: solid black thin;
+    flex-wrap: wrap;
+    display: flex;
+    height: fit-content;
+    box-shadow: -5px 5px 10px rgb(53, 82, 171);
+    background-color: rgba(205, 255, 249, 0.163);
+    border-radius: 5px;
+    
+}
+.weekdays {
+    text-align: center;
+    height: 20px;
+    width: calc(100% / 7);
 }
 .days{
     
-    background-color: cadetblue;
     height: 100px;
     width: calc(100% / 7);
+}
+.nonDays {
+    background-color: rgba(128, 128, 128, 0.156);
+    height: 100px;
+    width: calc(100% / 7);
+}
+
+.days:hover {
+    cursor: pointer;
+    border: black;
 }

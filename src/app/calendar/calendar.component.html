@@ -1,11 +1,13 @@
+<app-navbar-alt></app-navbar-alt>
 <div class="calWrap">
     <div class="dateWrap">
         {{today}}
     </div>
     <div class="daysWrap">
-        <div class="days"  ></div>
-        <div class="days"  ></div>
-        <div class="days"  ></div>
+        <div class="weekdays" *ngFor="let weekdays of week">{{weekdays}}</div>
+        <button mat-button class="nonDays" *ngFor="let preDays of preDaysOfMonth" >{{preDays}}</button>
+        <button mat-button class="days" *ngFor="let days of daysOfMonth" >{{days}}</button>
+        <button mat-button class="nonDays" *ngFor="let postDays of postDaysOfMonth" >{{postDays}}</button>
 
     </div>
 </div>
