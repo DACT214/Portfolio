@@ -19,6 +19,8 @@ import {MatInputModule} from '@angular/material/input';
 import { NavbarAltComponent } from './navbar-alt/navbar-alt.component';
 import {MatChipsModule} from '@angular/material/chips';
 import { CalendarComponent } from './calendar/calendar.component';
+import { CaculatorComponent } from './caculator/caculator.component';
+import {MatSelectModule} from '@angular/material/select';
 
 
 
@@ -32,7 +34,8 @@ import { CalendarComponent } from './calendar/calendar.component';
     NavbarComponent,
     EmailComponent,
     NavbarAltComponent,
-    CalendarComponent
+    CalendarComponent,
+    CaculatorComponent
   ],
   imports: [
     BrowserModule,
@@ -45,7 +48,8 @@ import { CalendarComponent } from './calendar/calendar.component';
     MatFormFieldModule,
     MatInputModule,
     FormsModule,
-    MatChipsModule
+    MatChipsModule,
+    MatSelectModule
   ],
   providers: [],
   bootstrap: [AppComponent]

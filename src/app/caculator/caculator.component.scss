@@ -1,0 +1,21 @@
+.calcWrapper {
+    display: grid;
+margin: 0px 20px;
+}
+
+.matInput, .mat-input-element {
+    min-height: 40px;
+    font-size: 20px;
+}
+.mat-select-value .mat-select mat-select-placeholder ng-tns-c80-1 ng-star-inserted{
+
+    border-bottom: solid;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    min-height: 40px;
+}
+
+input {
+    box-shadow: -5px 5px 10px rgb(57, 87, 176);
+    background-color: rgba(205, 255, 249, 0.163);
+}

@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { CaculatorComponent } from './caculator/caculator.component';
 import { CalendarComponent } from './calendar/calendar.component';
 import { EmailComponent } from './email/email.component';
 import { EnterComponent } from './enter/enter.component';
@@ -11,6 +12,7 @@ const routes: Routes = [
   {path:"enter", component:EnterComponent},
   {path:"email", component:EmailComponent},
   {path:"calendar", component:CalendarComponent},
+  {path:"caculator", component:CaculatorComponent},
   
   
 

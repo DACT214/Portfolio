@@ -1,0 +1,28 @@
+<app-navbar-alt></app-navbar-alt>
+<div class="calcWrapper">
+    <mat-form-field >
+    <input matInput type="number" [(ngModel)]="num1"> 
+</mat-form-field>
+<mat-form-field >
+    <input matInput type="number" [(ngModel)]="num2">
+</mat-form-field>
+<mat-form-field >
+        <mat-select [(ngModel)]="eqation">
+            <mat-option value="*">*</mat-option>
+            <mat-option value="/">/</mat-option>
+            <mat-option value="+">+</mat-option>
+            <mat-option value="-">-</mat-option>
+          </mat-select>
+    
+    </mat-form-field>
+
+    <br>
+
+    <div *ngIf="buttValue==true; then thenBlock else elseBlock"></div>
+<ng-template #thenBlock>{{finalNum}}<br><button mat-button (click)="onNew">Resubmit</button></ng-template>
+<ng-template #elseBlock><button mat-button type="submit" (click)="onSubmit()">Submit</button></ng-template>
+    
+    
+
+    
+</div>
