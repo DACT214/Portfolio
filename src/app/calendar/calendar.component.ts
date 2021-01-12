@@ -55,9 +55,10 @@ export class CalendarComponent implements OnInit {
       this.daysOfMonth[this.daysOfMonth.length]=x
     };
 //filler last days of previous month
-    for(let x=this.firstWeekDay-1, j= this.preMonth; x>=0 ; x--, j--){
-    this.preDaysOfMonth[this.preDaysOfMonth.length]=j
+    for(let x=this.firstWeekDay-1, j= this.preMonth; x>=0 ; x--, --j){
+    this.preDaysOfMonth[this.preDaysOfMonth.length]=j;
   };
+  this.preDaysOfMonth.reverse();
 //filler days for next month
     for(let x=this.lastWeekDay+1, j=1; x<=6 ; x++, j++){
       this.postDaysOfMonth[this.postDaysOfMonth.length]=j

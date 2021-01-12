@@ -21,6 +21,8 @@ import {MatChipsModule} from '@angular/material/chips';
 import { CalendarComponent } from './calendar/calendar.component';
 import { CaculatorComponent } from './caculator/caculator.component';
 import {MatSelectModule} from '@angular/material/select';
+import { WeatherComponent } from './weather/weather.component';
+import { HttpClientModule } from '@angular/common/http';
 
 
 
@@ -35,7 +37,8 @@ import {MatSelectModule} from '@angular/material/select';
     EmailComponent,
     NavbarAltComponent,
     CalendarComponent,
-    CaculatorComponent
+    CaculatorComponent,
+    WeatherComponent
   ],
   imports: [
     BrowserModule,
@@ -49,7 +52,8 @@ import {MatSelectModule} from '@angular/material/select';
     MatInputModule,
     FormsModule,
     MatChipsModule,
-    MatSelectModule
+    MatSelectModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
