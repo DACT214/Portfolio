@@ -6,6 +6,7 @@ import { useState } from "react";
 import LikeButton from "./components/LikeButton/LikeButton";
 
 import { FaCalendar } from "react-icons/fa"; //react-icon
+import ExpandableText from "./components/ExpandableText";
 
 // ========= List of cities Compononet ===========
 // function App() {
@@ -171,13 +172,13 @@ import { FaCalendar } from "react-icons/fa"; //react-icon
 
 // ======== immer component ===============
 // import produce from "immer";
-//
+
 // function App() {
 //   const [bugs, setBugs] = useState([
 //     { id: 1, title: "Bug 1", fixed: false },
 //     { id: 2, title: "Bug 2", fixed: false },
 //   ]);
-//
+
 //   const handleClick = () => {
 //     setBugs(
 //       produce((draft) => {
@@ -186,7 +187,7 @@ import { FaCalendar } from "react-icons/fa"; //react-icon
 //       })
 //     );
 //   };
-//
+
 //   return (
 //     <>
 //       {bugs.map((bug) => (
@@ -218,24 +219,119 @@ import { FaCalendar } from "react-icons/fa"; //react-icon
 // }
 // export default App;
 
-// ======== immer component ===============
-import Cart from "./components/Cart";
-import NavBar from "./components/NavBar";
+// ======== updating state exercise 1/2 ===============
+// update the name of player from game state object.
+// import Cart from "./components/Cart";
+// import NavBar from "./components/NavBar";
+
+// function App() {
+//   const [game, setGame] = useState({
+//     id: 1,
+//     player: {
+//       name: "John",
+//     },
+//   });
+
+//   const handleClick = () => {
+//     setGame({
+//       ...game,
+//       player: { ...game.player, name: "Bob" },
+//     });
+//   }
+
+//   return (
+//     <>
+//       {game.player.name}
+//       <button onClick={handleClick}>Click Me</button>
+//     </>
+//   );
+// }
+// export default App;
+
+// ======== updating state exercise 2/3 ===============
+// add a new topping to the pizza's toppings array in the pizza state object.
+// import Cart from "./components/Cart";
+// import NavBar from "./components/NavBar";
+
+// function App() {
+//   const [pizza, setPizza] = useState({
+//    name: 'Spicy Pepperoni',
+//     toppings: ['Mushroom']
+//   });
+
+//   const handleClick = () => {
+//     setPizza({
+//       ...pizza,
+//       toppings:[...pizza.toppings, 'Onion']
+//     });
+//   }
+
+//   return (
+//     <>
+//       {pizza.toppings.join(', ')}
+//       <button onClick={handleClick}>Click Me</button>
+//     </>
+//   );
+// }
+// export default App;
+
+// ======== updating state exercise 3/3 ===============
+// update the quantity of the array object with id 1 in the cart state object.
+// function App() {
+//   const [cart, setCart] = useState({
+//     discount: 0.1,
+//     item: [
+//       { id: 1, title: "Product 1", quantity: 1 },
+//       { id: 2, title: "Product 2", quantity: 1 },
+//     ],
+//   });
+
+//   const handleClick = () => {
+//     setCart({
+//       ...cart,
+//       item: cart.item.map((item) =>
+//         item.id === 1 ? { ...item, quantity: item.quantity++} : item
+//       ),
+//     }
+//     );
+//   };
+//   return (
+//     <>
+//       {cart.item.map((item) => (
+//         <p key={item.id}>
+//           {item.title} - {item.quantity}
+//         </p>
+//       ))}
+//       <button onClick={handleClick}>Click Me</button>
+//     </>
+//   );
+// }
+// export default App;
+
+
+// ======== building an expandable text component ===============
+
+// function App() {
+  
+//   return (
+//     <>
+//     <ExpandableText maxChars={10}>
+//     Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi id facere ducimus tempore iusto natus recusandae est, illum necessitatibus consequatur, aliquam sit ut explicabo neque iure pariatur sunt dignissimos nisi? Quas repellendus excepturi vitae suscipit eos esse molestiae alias, ullam recusandae ut molestias eligendi veritatis ducimus cupiditate doloremque enim, dicta odit, itaque obcaecati architecto laudantium? Harum, sapiente? Alias dignissimos repudiandae dolore sequi in esse ipsam incidunt ipsum tenetur saepe animi, eligendi iste voluptate quidem! Excepturi totam aut aspernatur. Laborum molestias nisi sequi a tenetur tempore recusandae, deleniti quia commodi sint quas libero in nobis, eos, dicta dignissimos consequatur. Doloremque, delectus.
+//     </ExpandableText>
+//     </>
+//   );
+// }
+// export default App;
+
+
+// ======== building a form ===============
+import Form from "./components/Form";
 
 function App() {
-  const [game, setGame] = useState({
-    id: 1,
-    player: {
-      name: "John",
-    },
-  });
-
-  const handleClick = () => {};
-
+  
   return (
     <>
-      <NavBar cartItmesCount={cartItems.length} />
-      <Cart cartItem={cartItems} onClear={() => setCartItems([])} />
+    <Form></Form>
     </>
   );
 }

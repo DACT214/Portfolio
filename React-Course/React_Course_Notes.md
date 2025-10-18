@@ -100,7 +100,7 @@ const [alertVisable, setAlertVisaibility] = useState(false);
 ## CSS Module
 
 - This allows for style to be called as a normal and unique JavaScript object.
-  > the uniqueness of the style object is what allows resuability of style clas names
+  > the uniqueness of the style object is what allows resuability of style class names
 - if you want multiple styles at once, we can wrap all the styles in an array `[]` and then call the `.join(' ')` which will join each style class with a space.
 
   - This syntax can be used to call style classes dynamically since the styling behaves like an object
@@ -134,7 +134,7 @@ const [alertVisable, setAlertVisaibility] = useState(false);
   - scoped style like modules
   - all the css & js/ts code in one place
   - easier to delete a component
-  - easier to syle based on props/state
+  - easier to style based on props/state
 
 Libraries:
 
@@ -245,6 +245,107 @@ React is designed around the same idea
   - 1 to check for any errors or problems
   - 2 to finally update the ui
 
+## Managing Componnets State
+- The state hook allows us to add state to function componenets.
+```
+ const [count, setCount] = useState(0); // count is state, setCount updates it, useState is the state hook
+
+```
+- Hooks can only be called at the top level of components.
+- State variables stay in memory (as long as the compononet is still on screen)
+  - different from local variables in a funciton
+  - State is tied to the component **instance**
+  - React will destroy the componenet and its state when it is removed from the screen
+- Updates are asynchronous, and aren't applied immediately
+  - They're applied after all event handlers are finihsed executing.
+  - React will re-render the component after the state is updated
+- Organized state variables into an Object
+- Avoid "*deeply nested*" state object
+  - "*flat objects*" are perfered, and easier to deal with.
+```javascript
+// Updating Object
+const [drink, setDrink] = useState({
+  title: 'Americano',
+  price:5
+});
+
+setDrink({...drink, price: 2 });
+
+/////////////////////////////////////////////////////////////////////////////
+
+// Updating Nested Objects
+const [customer, setCustomer] = useState({
+  name:'John',
+  address:{
+    city:'San Francisco',
+    zipCode:94111
+  }
+});
+
+setCustomer({
+  ...customer,
+  address:{...customer.address, zipCode:94112},
+});
+
+/////////////////////////////////////////////////////////////////////////////
+
+// Updationg Arrays
+const [tags, setTags] = useState(['a','b']);
+
+// adding
+setTags([...tags, 'c']);
+
+//removing
+setTags(tags.filter(tag => tag !== 'a'));
+
+// Updating
+setTags(tags.map(tag => tag === 'a' ? 'A':tag));
+
+/////////////////////////////////////////////////////////////////////////////
+
+// Updating Array of Objects
+const [bugs, setbugs] = useState([
+  {id: 1, title: 'bug 1', fixed: false},
+  {id: 2, title: 'bug 2', fixed: false}
+]);
+
+setBugs(bugs.map(bug =>
+  bug.id === 1? { ...bug, fixed: true } : bug));
+```
+- Keep state as minimal as possible
+  - Avoid redundant state variables that can be computed from existing variables
+- **Pure Function**: A function that returns the same result given the same input.
+  - Shouldn't modify objects outside of the function
+  - React expect Pure Function Components -> Always return the same JSX with same inputs
+    - avoid making changes in the render phase
+- **Strict Mode** helps us catch potential problems such as impure componenets.
+  - Renders components twice to detect any potential side effects.
+- Objects & Arrays should be treated as immutable objects.
+  - create new objects to update state.
+- **Immer** is a library that can help us update objects and arrays in a more consise and mutable way.
+  ```
+  npm install immer
+  ```
+  ```javascript
+  import produce from 'immer';
+  setBugs(produce(draft => {
+    const bug = draft.find(bug => bug.id === 1);
+    if (bug) bug.fixed = true;
+  }));
+  ```
+- To share state between components:
+  1. Lift the state up to the cloest parent componenet.
+  2. Then pass it down as props to child components.
+  - The Component that holds some state should be the one that updates it.
+    - *if a child component needs to update some state, it should notify the parent component using a callback function passed down as a prop.*
+
+
+
+
+
+---
+---
+---
 # Key Comands and features:
 
 ## commands
