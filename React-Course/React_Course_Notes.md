@@ -503,6 +503,66 @@ const App = () => {
 
 # Connecting to the Backend
 
+## Understand the Effect Hook
+
+- `useEffect()` is used when we want to execute a piece of code after the render
+  - Our React componenets need to be _Pure Functions_; thus keeping any code out of the render phase.
+    - However this limits saving data in the browser/local storage, calling the server to fetch/save data, or manually modifing the DOM
+    - That's where the **Effect Hook** comes in
+- Multiple Effects can be executed within the same components.
+  - each new effect will run in order after each render of the component
+
+## Effect dependency
+
+- sometimes we want more control over when the effect is executed, and not just after each render.
+  - not controling this can lead to infinate loops of the effect hook.
+- To pervent this we can pass the second argument of the `useEffect()` function:
+
+```typescript
+useEffect(() => {}, []);
+```
+
+> The Array block stops the infient loops and executes the Effect function only once
+
+```typescript
+useEffect(() => {}, [randomVal...]);
+```
+
+> The Array block, with a value(s) within it, stops the infient loops, and executes the Effect function only when said value(s) changes.
+
+## Effect Clean Up
+
+- Sometimes we need to execute some "_clean up_" code to disconnect or unsubscribe a user from some service or server.
+  - This is done by adding clean up code within the `useEffect` function:
+
+```typescript
+const connect = () => console.log("connecting...");
+const disconnect = () => console.log("disconnecting...");
+
+function App() {
+  useEffect(() => {
+    connect();
+
+    // clean up function
+    return () => disconnect();
+  });
+}
+```
+
+# Fetching Data
+
+- We can use `fetch()` but we could also use axios, a very popular npm library used to make http reqeusts.
+- `npm install axios`
+- using axios, we can make a server reqeust within the `useEffect()` like this:
+
+```typescript
+useEffect(() => {
+  axios.get("https://jsonplaceholder.typicode.com/users");
+});
+```
+
+> This return a **_Promise_**, an object that holds the eventural result or failure of an asynchronus operation.
+
 ---
 
 ---
