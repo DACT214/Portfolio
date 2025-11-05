@@ -308,11 +308,10 @@ import ExpandableText from "./components/ExpandableText";
 // }
 // export default App;
 
-
 // ======== building an expandable text component ===============
 
 // function App() {
-  
+
 //   return (
 //     <>
 //     <ExpandableText maxChars={10}>
@@ -323,15 +322,55 @@ import ExpandableText from "./components/ExpandableText";
 // }
 // export default App;
 
-
 // ======== building a form ===============
-import Form from "./components/Form";
+// import Form from "./components/Form";
 
+// function App() {
+
+//   return (
+//     <>
+//     <Form></Form>
+//     </>
+//   );
+// }
+// export default App;
+
+//======== building a expense list ===============
+
+import { ExpenseList } from "./expense-tracker/components/ExpenseList";
+import { ExpenseFilter } from "./expense-tracker/components/ExpenseFilter";
+import { ExpenseForm } from "./expense-tracker/components/ExpenseForm";
+import categories from "./expense-tracker/categories";
 function App() {
-  
+  const [selected, setSelected] = useState("");
+
+  const [expenses, setExpenses] = useState([
+    { id: 1, description: "aaa", amount: 10, category: "Utilities" },
+    { id: 2, description: "bbb", amount: 10, category: "Utilities" },
+    { id: 3, description: "ccc", amount: 10, category: "Utilities" },
+    { id: 4, description: "ddd", amount: 10, category: "Utilities" },
+  ]);
+
+  const visibleExpenses = selected
+    ? expenses.filter((e) => e.category === selected)
+    : expenses;
+
   return (
     <>
-    <Form></Form>
+      <div className="mb-5">
+        <ExpenseForm
+          onSubmit={(expense) =>
+            setExpenses([...expenses, { ...expense, id: expenses.length + 1 }])
+          }
+        ></ExpenseForm>
+      </div>
+      <div className="mb-3">
+        <ExpenseFilter onSelectCategory={(category) => setSelected(category)} />
+      </div>
+      <ExpenseList
+        expense={visibleExpenses}
+        onDelete={(id) => setExpenses(expenses.filter((e) => e.id !== id))}
+      ></ExpenseList>
     </>
   );
 }

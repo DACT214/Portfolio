@@ -246,11 +246,14 @@ React is designed around the same idea
   - 2 to finally update the ui
 
 ## Managing Componnets State
+
 - The state hook allows us to add state to function componenets.
+
 ```
  const [count, setCount] = useState(0); // count is state, setCount updates it, useState is the state hook
 
 ```
+
 - Hooks can only be called at the top level of components.
 - State variables stay in memory (as long as the compononet is still on screen)
   - different from local variables in a funciton
@@ -260,58 +263,59 @@ React is designed around the same idea
   - They're applied after all event handlers are finihsed executing.
   - React will re-render the component after the state is updated
 - Organized state variables into an Object
-- Avoid "*deeply nested*" state object
-  - "*flat objects*" are perfered, and easier to deal with.
+- Avoid "_deeply nested_" state object
+  - "_flat objects_" are perfered, and easier to deal with.
+
 ```javascript
 // Updating Object
 const [drink, setDrink] = useState({
-  title: 'Americano',
-  price:5
+  title: "Americano",
+  price: 5,
 });
 
-setDrink({...drink, price: 2 });
+setDrink({ ...drink, price: 2 });
 
 /////////////////////////////////////////////////////////////////////////////
 
 // Updating Nested Objects
 const [customer, setCustomer] = useState({
-  name:'John',
-  address:{
-    city:'San Francisco',
-    zipCode:94111
-  }
+  name: "John",
+  address: {
+    city: "San Francisco",
+    zipCode: 94111,
+  },
 });
 
 setCustomer({
   ...customer,
-  address:{...customer.address, zipCode:94112},
+  address: { ...customer.address, zipCode: 94112 },
 });
 
 /////////////////////////////////////////////////////////////////////////////
 
 // Updationg Arrays
-const [tags, setTags] = useState(['a','b']);
+const [tags, setTags] = useState(["a", "b"]);
 
 // adding
-setTags([...tags, 'c']);
+setTags([...tags, "c"]);
 
 //removing
-setTags(tags.filter(tag => tag !== 'a'));
+setTags(tags.filter((tag) => tag !== "a"));
 
 // Updating
-setTags(tags.map(tag => tag === 'a' ? 'A':tag));
+setTags(tags.map((tag) => (tag === "a" ? "A" : tag)));
 
 /////////////////////////////////////////////////////////////////////////////
 
 // Updating Array of Objects
 const [bugs, setbugs] = useState([
-  {id: 1, title: 'bug 1', fixed: false},
-  {id: 2, title: 'bug 2', fixed: false}
+  { id: 1, title: "bug 1", fixed: false },
+  { id: 2, title: "bug 2", fixed: false },
 ]);
 
-setBugs(bugs.map(bug =>
-  bug.id === 1? { ...bug, fixed: true } : bug));
+setBugs(bugs.map((bug) => (bug.id === 1 ? { ...bug, fixed: true } : bug)));
 ```
+
 - Keep state as minimal as possible
   - Avoid redundant state variables that can be computed from existing variables
 - **Pure Function**: A function that returns the same result given the same input.
@@ -327,25 +331,184 @@ setBugs(bugs.map(bug =>
   npm install immer
   ```
   ```javascript
-  import produce from 'immer';
-  setBugs(produce(draft => {
-    const bug = draft.find(bug => bug.id === 1);
-    if (bug) bug.fixed = true;
-  }));
+  import produce from "immer";
+  setBugs(
+    produce((draft) => {
+      const bug = draft.find((bug) => bug.id === 1);
+      if (bug) bug.fixed = true;
+    })
+  );
   ```
 - To share state between components:
   1. Lift the state up to the cloest parent componenet.
   2. Then pass it down as props to child components.
   - The Component that holds some state should be the one that updates it.
-    - *if a child component needs to update some state, it should notify the parent component using a callback function passed down as a prop.*
+    - _if a child component needs to update some state, it should notify the parent component using a callback function passed down as a prop._
 
+# Building Forms
 
+- `onSubmit` attribute is set in the **Props** interface and implemention is passed through the parent component of the form component
 
+```typescript
+// Handling Form Submission
 
+const App = () => {
+  const handleSubmit = (event: FormEvent) => {
+    event.preventDefault();
+    console.log("Submitted");
+  };
+};
+```
+
+- **Ref Hooks** is another built in hook in React that we can use to refrence the value of an input field upon submitting a from.
+  - _There is a small performance advantage when using ref hooks, since state hooks rerenders your entire app with every change; ref does't rerender but stores value in `.current`_
+
+```typescript
+// Accessing Input Fields using the Ref Hook
+
+const App = () => {
+  const nameRef = useRef<HTMLInputElemet>(null);
+
+  const handleSubmit = (event: FormEvent) => {
+    event.preventDefault();
+
+    if (nameRef.current) console.log(nameRef.current.value);
+  };
+  return (
+    <form onSubmit={handleSubmit}>
+      <input ref={nameRef} type="text" />
+    </form>
+  );
+};
+```
+
+- State hook can be used to create state variables and update them as the user types into input fields.
+
+```typescript
+// Managing Form State using the State Hook
+
+const App = () => {
+
+  const[name, setName] = useState('');
+
+  return(
+    <form>
+      <input type="text" value{name} onChange=(event)=> {setName(event.target.value)} />
+    </form>
+  );
+};
+```
+
+- **React Hook Form** is a popular library used to help us build forms quickly with less code.
+  - _no longer have to worry about using state or ref hooks_
+  - `import { useForm } from "react-hook-form";`
+
+```typescript
+// Managing State Using React Hook Form
+
+import { FieldFalues, useForm } = fomr 'react-hook-form';
+
+const App = () => {
+  const { register, handleSubmit } = useForm();
+
+  const onSubmit = (data: FieldValues) => {
+    console.log('Submitting the form', data);
+  }
+
+  return(
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <input {...register("name")} type="text"/>
+    </form>
+  )
+}
+```
+
+- React Hook Form supports the standard HTML attributes for data validation such as required, minLength, etc.
+
+```typescript
+// Validation using HTML 5 Attributes
+
+const App = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors
+  } = useForm<FormData>();
+
+  const onSubmit = (data: FieldValues) => {
+    console.log('Submitting the form', data);
+  };
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <input {...('name', {required: true})} type="text">
+      {errors.name?.type === 'required' && <p>Name is required.</p>}
+    </form>
+  );
+};
+```
+
+- We can validate our forms using schema-based validation usch as **_joi, yup, zod_**, etc. With these libraries, we can define all our validation rules in a single place called a schema.
+
+```typescript
+// Schema-Based Validation with Zod
+
+import { FeildValues, useForm } from 'react-hook-form';
+import { z } form 'zod';
+import { zodResolver } from '@hookform/resolver/zod';
+
+const schema = z.object({
+  name:z.string().min(3),
+});
+
+type FormData = z.infer<typeof schema>;
+
+const App = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormData>({ resolver: zodResolver(schema)});l
+
+  const onSubmit = (data: FieldValues) => {
+    console.log('Submitting the form', data);
+  };
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <input {...register('name')} type='text' />
+      {errors.name && <p>{errors.name.message}</p>}
+    </form>
+  );
+};
+```
+
+> Bonus tips for validation in forms
+
+```typescript
+// Disableing the Submit Button
+
+const App = () => {
+  const {
+    formState: { isValid },
+  } = useForm<FormData>();
+
+  return (
+    <form>
+      <button disabled={!isValid}>Submit</button>
+    </form>
+  );
+};
+```
+
+# Connecting to the Backend
 
 ---
+
 ---
+
 ---
+
 # Key Comands and features:
 
 ## commands
