@@ -551,17 +551,133 @@ function App() {
 
 # Fetching Data
 
-- We can use `fetch()` but we could also use axios, a very popular npm library used to make http reqeusts.
+- We can use `fetch()` but we could also use **Axios**, a very popular npm library used to make http reqeusts.
 - `npm install axios`
-- using axios, we can make a server reqeust within the `useEffect()` like this:
+- using Axios, we can make a server reqeust within the `useEffect()` like this:
 
 ```typescript
 useEffect(() => {
   axios.get("https://jsonplaceholder.typicode.com/users");
-});
+}, []);
 ```
 
 > This return a **_Promise_**, an object that holds the eventural result or failure of an asynchronus operation.
+
+```typescript
+useEffect(() => {
+  axios
+    .get("https://jsonplaceholder.typicode.com/users")
+    .then((res) => setUsers(res.data));
+}, []);
+```
+
+> Since axios http request are _promises_ we can appen the `.then()` method after http method.
+
+```typescript
+const [error, setError] = useState("");
+useEffect(() => {
+  axios
+    .get("https://jsonplaceholder.typicode.com/users")
+    .then((res) => setUsers(res.data))
+    .catch((err) => setError(err.message));
+}, []);
+
+return (
+  <>
+    {error && <p className="text-danger">{error}</p>}
+    <ul>
+      {users.map((user) => (
+        <li key={user.id}>{user.name}</li>
+      ))}
+    </ul>
+  </>
+);
+```
+
+> Like the `.then()` method, Axios also has a catch error method, `.catch()` where we can pass an error and display that error uing our state hook.
+
+- (IF YOU WANT TO BE STUPID AND STINKY) There is another way to do the above implementation using `await` and `async`:
+
+```typescript
+const [error, setError] = useState("");
+
+useEffect(() => {
+  const fetchUser = async () => {
+    try {
+      const res = await axios.get<User[]>(
+        "https://jsonplaceholder.typicode.com/xusers"
+      );
+      setUsers(res.data);
+    } catch (err) {
+      setError((err as AxiosError).message);
+    }
+  };
+  fetchUser();
+}, []);
+```
+
+## Cancelling a reqeust
+
+- When dealing with server request, sometimes you'll want to cancel the request to the server because the data is no longer needed (user navigates to another page). We can use the `AbortController()` method:
+
+```typescript
+useEffect(() => {
+  const controller = new AbortController();
+
+  axios
+    .get<User[]>(
+      "https://jsonplaceholder.typicode.com/users",
+      // here you'll add a second perameter, configuration object
+      { signal: controller.signal }
+    )
+    .then((res) => setUsers(res.data))
+    .catch((err) => {
+      // Don't forget to configure if you want the error to show or not
+      if (err instanceof CanceledError) return;
+      setError(err.message);
+    });
+
+  // clean up function
+  return () => controller.abort();
+}, []);
+```
+
+### loading indicator
+
+- This is a simple state hook implementation. Just creat a state for your loading state, add it to before and after your fetch reqeust has finished (\*_true_ before the request is made, and _false_ at the end of your `.then` and `.catch` blocks\*), and finally add your loading element using bootstrapL:
+
+```typescript
+const [isLoading, setLoading] = useState(false);
+useEffect(() => {
+    const controller = new AbortController();
+
+    // make the loader appear
+    setLoading(true);
+    axios
+      .get<User[]>("https://jsonplaceholder.typicode.com/users", {
+        signal: controller.signal,
+      })
+      .then((res) => {
+        setUsers(res.data);
+        // gets rid of the loader
+        setLoading(false);
+      })
+      .catch((err) => {
+        if (err instanceof CanceledError) return;
+        setError(err.message);
+        // gets rid of the loader
+        setLoading(false);
+      });
+
+    return () => controller.abort();
+  }, []);
+
+  return (
+    <>
+      // loader shows if isLoading is true
+      {isLoading && <div className="spinner-border"></div>}
+    </>
+```
 
 ---
 

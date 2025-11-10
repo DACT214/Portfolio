@@ -442,7 +442,174 @@ import categories from "./expense-tracker/categories";
 // export default App;
 
 //======== Fetch Data ===============
-import axios from "axios";
+// import axios from "axios";
+
+// interface User {
+//   id: number;
+//   name: string;
+// }
+
+// function App() {
+//   const [users, setUsers] = useState<User[]>([]);
+
+//   const [error, setError] = useState("");
+
+//   useEffect(() => {
+//     axios
+//       .get<User[]>("https://jsonplaceholder.typicode.com/xusers")
+//       .then((res) => setUsers(res.data))
+//       .catch((err) => setError(err.message));
+//   }, []);
+
+//   return (
+//     <>
+//       {error && <p className="text-danger">{error}</p>}
+//       <ul>
+//         {users.map((user) => (
+//           <li key={user.id}>{user.name}</li>
+//         ))}
+//       </ul>
+//     </>
+//   );
+// }
+// export default App;
+
+//======== Fetch Data with Async and Await ===============
+// import axios, { AxiosError } from "axios";
+
+// interface User {
+//   id: number;
+//   name: string;
+// }
+
+// function App() {
+//   const [users, setUsers] = useState<User[]>([]);
+
+//   const [error, setError] = useState("");
+
+//   useEffect(() => {
+//     const fetchUser = async () => {
+//       try {
+//         const res = await axios.get<User[]>(
+//           "https://jsonplaceholder.typicode.com/xusers"
+//         );
+//         setUsers(res.data);
+//       } catch (err) {
+//         setError((err as AxiosError).message);
+//       }
+//     };
+//     fetchUser();
+//   }, []);
+
+//   return (
+//     <>
+//       {error && <p className="text-danger">{error}</p>}
+//       <ul>
+//         {users.map((user) => (
+//           <li key={user.id}>{user.name}</li>
+//         ))}
+//       </ul>
+//     </>
+//   );
+// }
+// export default App;
+
+//======== Cancelling a Fetch Request ===============
+// import axios, { CanceledError } from "axios";
+
+// interface User {
+//   id: number;
+//   name: string;
+// }
+
+// function App() {
+//   const [users, setUsers] = useState<User[]>([]);
+
+//   const [error, setError] = useState("");
+
+//   useEffect(() => {
+//     const controller = new AbortController();
+
+//     axios
+//       .get<User[]>("https://jsonplaceholder.typicode.com/users", {
+//         signal: controller.signal,
+//       })
+//       .then((res) => {
+//         setUsers(res.data);
+//       })
+//       .catch((err) => {
+//         if (err instanceof CanceledError) return;
+//         setError(err.message);
+//       });
+
+//     return () => controller.abort();
+//   }, []);
+
+//   return (
+//     <>
+//       {error && <p className="text-danger">{error}</p>}
+//       <ul>
+//         {users.map((user) => (
+//           <li key={user.id}>{user.name}</li>
+//         ))}
+//       </ul>
+//     </>
+//   );
+// }
+// export default App;
+
+//======== Adding Loader to Fetch Request ===============
+// import axios, { CanceledError } from "axios";
+
+// interface User {
+//   id: number;
+//   name: string;
+// }
+
+// function App() {
+//   const [users, setUsers] = useState<User[]>([]);
+
+//   const [error, setError] = useState("");
+
+//   const [isLoading, setLoading] = useState(false);
+
+//   useEffect(() => {
+//     const controller = new AbortController();
+
+//     setLoading(true);
+//     axios
+//       .get<User[]>("https://jsonplaceholder.typicode.com/users", {
+//         signal: controller.signal,
+//       })
+//       .then((res) => {
+//         setUsers(res.data);
+//         setLoading(false);
+//       })
+//       .catch((err) => {
+//         if (err instanceof CanceledError) return;
+//         setError(err.message);
+//         setLoading(false);
+//       });
+
+//     return () => controller.abort();
+//   }, []);
+
+//   return (
+//     <>
+//       {error && <p className="text-danger">{error}</p>}
+//       {isLoading && <div className="spinner-border"></div>}
+//       <ul>
+//         {users.map((user) => (
+//           <li key={user.id}>{user.name}</li>
+//         ))}
+//       </ul>
+//     </>
+//   );
+// }
+// export default App;
+
+//======== Delete Data ===============
+import axios, { CanceledError } from "axios";
 
 interface User {
   id: number;
@@ -452,18 +619,64 @@ interface User {
 function App() {
   const [users, setUsers] = useState<User[]>([]);
 
+  const [error, setError] = useState("");
+
+  const [isLoading, setLoading] = useState(false);
+
   useEffect(() => {
+    const controller = new AbortController();
+
+    setLoading(true);
     axios
-      .get<User[]>("https://jsonplaceholder.typicode.com/users")
-      .then((res) => setUsers(res.data));
+      .get<User[]>("https://jsonplaceholder.typicode.com/users", {
+        signal: controller.signal,
+      })
+      .then((res) => {
+        setUsers(res.data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        if (err instanceof CanceledError) return;
+        setError(err.message);
+        setLoading(false);
+      });
+
+    return () => controller.abort();
   }, []);
 
+  const deleteUser = (user: User) => {
+    const originalUser = [...users];
+    setUsers(users.filter((u) => u.id !== user.id));
+
+    axios
+      .delete("https://jsonplaceholder.typicode.com/xusers/" + user.id)
+      .catch((err) => {
+        setError(err.message);
+        setUsers(originalUser);
+      });
+  };
+
   return (
-    <ul>
-      {users.map((user) => (
-        <li key={user.id}>{user.name}</li>
-      ))}
-    </ul>
+    <>
+      {error && <p className="text-danger">{error}</p>}
+      {isLoading && <div className="spinner-border"></div>}
+      <ul className="list-group">
+        {users.map((user) => (
+          <li
+            key={user.id}
+            className="list-group-item d-flex justify-content-between"
+          >
+            {user.name}
+            <button
+              className="btn btn-outline-danger"
+              onClick={() => deleteUser(user)}
+            >
+              Delete
+            </button>
+          </li>
+        ))}
+      </ul>
+    </>
   );
 }
 export default App;
