@@ -992,32 +992,110 @@ import categories from "./expense-tracker/categories";
 // export default App;
 
 //======== Creating an API service file ===============
-import { CanceledError } from "./services/api-client";
+// import { CanceledError } from "./services/api-client";
+// import userService, { User } from "./services/user-service";
+
+// function App() {
+//   const [users, setUsers] = useState<User[]>([]);
+//   const [error, setError] = useState("");
+//   const [isLoading, setLoading] = useState(false);
+
+//   useEffect(() => {
+//     setLoading(true);
+//     const { request, cancel } = userService.getAll<User>();
+//     request
+//       .then((res) => {
+//         setUsers(res.data);
+//         setLoading(false);
+//       })
+//       .catch((err) => {
+//         if (err instanceof CanceledError) return;
+//         setError(err.message);
+//         setLoading(false);
+//       });
+
+//     return () => cancel();
+//   }, []);
+
+//   const deleteUser = (user: User) => {
+//     const originalUser = [...users];
+//     setUsers(users.filter((u) => u.id !== user.id));
+
+//     userService.delete(user.id).catch((err) => {
+//       setError(err.message);
+//       setUsers(originalUser);
+//     });
+//   };
+
+//   const addUser = () => {
+//     const originalUsers = [...users];
+//     //optimistic update
+//     const newUser = { id: 0, name: "Mosh" };
+//     setUsers([newUser, ...users]);
+
+//     userService
+//       .add(newUser)
+//       .then(({ data: savedUser }) => setUsers([savedUser, ...users]))
+//       .catch((err) => {
+//         setError(err.message);
+//         setUsers(originalUsers);
+//       });
+//   };
+
+//   const updateUser = (user: User) => {
+//     const originalUsers = [...users];
+//     const updatedUser = { ...user, name: user.name + "!" };
+//     setUsers(users.map((u) => (u.id === user.id ? updatedUser : u)));
+
+//     userService.update(updatedUser).catch((err) => {
+//       setError(err.message);
+//       setUsers(originalUsers);
+//     });
+//   };
+
+//   return (
+//     <>
+//       {error && <p className="text-danger">{error}</p>}
+//       {isLoading && <div className="spinner-border"></div>}
+//       <button className="btn btn-primary mb-3" onClick={addUser}>
+//         Add
+//       </button>
+//       <ul className="list-group">
+//         {users.map((user) => (
+//           <li
+//             key={user.id}
+//             className="list-group-item d-flex justify-content-between"
+//           >
+//             {user.name}
+//             <div>
+//               <button
+//                 className="btn btn-outline-danger"
+//                 onClick={() => deleteUser(user)}
+//               >
+//                 Delete
+//               </button>
+//               <button
+//                 className="btn btn-outline-secondary mx-1"
+//                 onClick={() => updateUser(user)}
+//               >
+//                 Update
+//               </button>
+//             </div>
+//           </li>
+//         ))}
+//       </ul>
+//     </>
+//   );
+// }
+// export default App;
+
+//======== Creating a custom hook ===============
 import userService, { User } from "./services/user-service";
+import useUsers from "./Hooks/useUsers";
 
 function App() {
-  const [users, setUsers] = useState<User[]>([]);
 
-  const [error, setError] = useState("");
-
-  const [isLoading, setLoading] = useState(false);
-
-  useEffect(() => {
-    setLoading(true);
-    const { request, cancel } = userService.getAll<User>();
-    request
-      .then((res) => {
-        setUsers(res.data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        if (err instanceof CanceledError) return;
-        setError(err.message);
-        setLoading(false);
-      });
-
-    return () => cancel();
-  }, []);
+  const {users, error, isLoading, setError, setUsers} = useUsers();
 
   const deleteUser = (user: User) => {
     const originalUser = [...users];

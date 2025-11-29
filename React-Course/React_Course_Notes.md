@@ -679,6 +679,72 @@ useEffect(() => {
     </>
 ```
 
+
+# Connecting to the Backend
+- We use the **Effect Hook** to perform "*side effects*", such as *fetching data* or *updating the DOM*
+- The effect hook takes a *function* that performs the side effects and an *optional array of dependencies*. 
+  - Whenever the dependencies change, the effect hook runs again.
+```typescript
+function App(){
+  useEffect(() = > {
+    document.title = 'App';
+  }, []);
+}
+```
+- To clean up any resources that were created by the Effect Hook, we can include a **clean-up function** that runs when the component *unmounts* or the *dependencies change*.
+> Reacts handles front-end development; but we need A Back-end to handle business logic, data storage, and other functionality.
+- The communication between the front-end and teh back-end happens over HTTP, the same protocol that powers the web.
+  - The front-end sends an HTTP request to the back-end, and the back-end sends an HTTP response back.
+  - Each HTTP request and response contains a header and a body. 
+  - The header provides metadata about the message, such as the content type and HTTP status code, while tha body contains the actual data being sent or received.
+- To send HTTP requests to the backend, we can use **axios**, a popular JavaScript library. *Axios* makes it easy to send requests.
+```typescript
+const [users, setUsers] = useState<User[]>([]);
+
+useEffect(()=>{
+  //GET
+  axios.get<User[]>('http://...')
+  .then((res)=> setUsers(res.data));
+},[]);
+
+// =================
+  //DELETE
+  axios.delete('http://...')
+  //CREATE (POST)
+  axios.post('http://...', newUser)
+  // UPDATE (PUT)
+  axios.put('http://...', updatedUser)
+```
+- When we send HTTP requests with the *effect hook*, we should provide a *clean-up function* to **cancel** the request if the component is unmounted before teh response is received. 
+  - This is important to prevent errors, especially if the user navigates to different page while the request is still pending.
+```typescript
+useEffect(()=>{
+  const controller = new AbortController();
+
+  axios.get<User[]>('http://...')
+  .then((res) => setUsers(res.data))
+  .catch(err => {
+    if(err onstanceof CanceledError) return;
+    setError(err.message)
+  });
+},[]);
+```
+- When sending HTTP requests, we must handle errors properly. This can be done using `try-catch` blocks or by handling the error in the promise chain using `.catch()`.
+```typescript
+const[error, setError]= useState('');
+
+useEffect(()=>{
+  axios.get<User[]>('http://...')
+  .then((res)=> setUsers(res.data))
+  .catch(err => setError(err.message));
+},[])
+```
+- **Custom hooks** are a way to reuse code logic between multiple components. 
+  - By encapsulating logic in a custom hook, we can create reusable pieces of code that can be shared across components without duplication the code. 
+  - **Custom hooks** can be used to handle common tasks, such as fetching data, and can help to make our code more organized and easier to maintain.
+
+
+
 ---
 
 ---
