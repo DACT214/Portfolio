@@ -751,6 +751,15 @@ useEffect(() => {
   - By encapsulating logic in a custom hook, we can create reusable pieces of code that can be shared across components without duplication the code.
   - **Custom hooks** can be used to handle common tasks, such as fetching data, and can help to make our code more organized and easier to maintain.
 
+# Secure API Key Mgmt
+
+- **DO NOT STORE YOUR API KEYS IN THE SOURCE CODE!** This is just a temporary solution during development.
+  > Api Keys should be stored as an enviornment variable accessable through our backend server, and nowhere on our front end. This keeps the API hidden on our client side.
+
+# Creating a Custom Hook for Fetching Data
+
+-
+
 ---
 
 ---
