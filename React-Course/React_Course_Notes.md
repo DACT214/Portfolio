@@ -756,10 +756,6 @@ useEffect(() => {
 - **DO NOT STORE YOUR API KEYS IN THE SOURCE CODE!** This is just a temporary solution during development.
   > Api Keys should be stored as an enviornment variable accessable through our backend server, and nowhere on our front end. This keeps the API hidden on our client side.
 
-# Creating a Custom Hook for Fetching Data
-
--
-
 ---
 
 ---
