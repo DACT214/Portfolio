@@ -138,4 +138,42 @@
 
 ### Calling Models
 
-    -
+- In our application we can call our AI Models by importing a AI client
+  - For OpenAI, we install `npm i openai`
+  - Then we configure the client with our api key:
+
+  ```javascript
+  // your AI api key goes here
+  const OPENAI_API_KEY = process.env.API_KEY;
+
+  // configure your ai client here
+  const client = new OpenAI({
+    apiKey: OPENAI_API_KEY,
+  });
+  ```
+
+  - After we need to configure our model we're going to use in our applicaiton:
+    - In this block of code `stream` is a property of our model that enables the **_Async Iterable_** output that we are so use to seeing in AI chat resposnes
+      - without it it will ouput a singular object with our full response from our model.
+    - Thus, a list of objects will, one-by-one, be generated as an output into your constant `stream` similar to adding objects into an array.
+
+  ```javascript
+  // configure you model here
+  const stream = await client.responses.create({
+    model: "gpt-4.1",
+    input: "Write a story about a dragon",
+    temperature: 0.7,
+    max_output_tokens: 250,
+    stream: true,
+  });
+  ```
+
+  - To output the response like moder AI Chat bot we will need to `process.stdout.write()` the data
+    - However, the Async Iterable `stream` woudld need to be looped through and discected for the value of the token that needs to be printed.
+    - Thus, we loop through the response tokens and write them to the console like so:
+
+  ```javascript
+  for await (const event of stream) {
+    if (event.delta) process.stdout.write(event.delta);
+  }
+  ```
