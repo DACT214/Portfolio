@@ -12,7 +12,7 @@
   - Commercial:
     - GPT (OpenAI)
     - Gemini (Google)
-    - Claude ()
+    - Claude
     - Grok
   - Open-Source Modles
     - Llama
@@ -45,7 +45,7 @@
     - This can enable us to identify froms of texts and parse that data for our backend to use
   - Translation
   - Data Extraction
-    - This can enable us to extract data from texts and parse tha tdata for our backend to use
+    - This can enable us to extract data from texts and parse that data for our backend to use
   - Chat Interfaces
 - All these use cases follow the same model: **_Text in Text out_**
 
@@ -91,23 +91,23 @@
   - More **_simple_** the task use the **_Smaller_** model
 - Speed
   - **_Faster_** output, use the **_Smaller_** model
-  - **_Slower_** output, use the **_Larger_** model
+  - If **_Slower_** output is ok, use the **_Larger_** model
 - Modalities
-  - This is the type of meduim you're using (text, images, video, audio)
+  - This is the type of meduim you're using (text, images, video or audio)
   - **_Multipe media types_** you'll need a **_LMMs (Large Multi-Modal Models)_**
   - **_Just text_** you'll can use a simple **_LLM_**
 - Cost
-  - Depends on the cost per token (_usually charged by per million_)
+  - Depends on the cost per token (_usually charged per million_)
     - generating a lot of documents or contetent, cost can add up quickly
 - Context Window
   - If you need **_More context_** for the user experiance use a model with a **_Large Context Window_**
-  - If you need **_Less context_** for the user experiance use a model with a **_Smaller Context Window_**
+  - If **_Less context_** is ok or needed for the user experiance use a model with a **_Smaller Context Window_**
 - Privacy
   - If handling **_Private Data_** then its best to use a **_Open-Source, Self-Hosted_** AI
   - If handling **_Private Data_** then its ok to use a **_Comnmercial_** AI
 - _Knowledge Cutoff_
   - This is the cutoff date of until when the model has stopped being trained.
-  - This maybe important to your selection but it isn't the ultimate decision making of the models you choose
+  - This may be important to your selection but it isn't the ultimate decision making of the models you choose
     > [OpenAI Models](https://platform.openai.com/docs/models/compare)
 
 ### Understanding Model Settings
@@ -115,7 +115,7 @@
 - In configuring models you can play around with different settings like:
   - **Format**
     - This changes the format of the response
-      - Text, json_object, json_schema
+      - Text; json_object; json_schema
   - **Temprature**
     - this is how crative the model can be
       - we never use extream values because the model can be a little too wild in its response
@@ -168,8 +168,8 @@
   });
   ```
 
-  - To output the response like moder AI Chat bot we will need to `process.stdout.write()` the data
-    - However, the Async Iterable `stream` woudld need to be looped through and discected for the value of the token that needs to be printed.
+  - To output the response like modern AI Chat bot we will need to `process.stdout.write()` the data (_for console output_)
+    - However, the Async Iterable `stream` would need to be looped through and discected for the value of the token that needs to be printed.
     - Thus, we loop through the response tokens and write them to the console like so:
 
   ```javascript
@@ -177,3 +177,69 @@
     if (event.delta) process.stdout.write(event.delta);
   }
   ```
+
+## Full-Stack for Course
+
+### Prerequisite for course
+
+- We'll be using 3 main tools and frameworks:
+  - Bun
+  - Vite
+  - Express
+  - Tailwind
+  - shadcn/ui
+  - Husky
+
+### Setting up Bun
+
+- Modern JS runtime
+  - Kinda like Node.JS but faster and more integrated
+  - Node.JS requires multiple tools for multiple features, Bun we get all the features of said tools in one tool
+
+  | Node.js                                          | Bun                   |
+  | ------------------------------------------------ | --------------------- |
+  | npm (tool to run packages)                       | Runtime               |
+  | ts-node (tool to run TypeScript)                 | Package Manager       |
+  | nodemon (tool to restart the server upon change) | Task Runner           |
+  |                                                  | Typescript Transpiler |
+
+- Installing Bun (_on Windows_)
+  - In the terminal run this command `powershell -c "irm bun.sh/install.ps1 | iex"` (_from `https://bun.sh/` as of 1.27.2026_)
+    - doesn't matter if powershell or cmd terminal
+  - Then close all terminal and code editor, reopen, and type Bun in terminal to check if installed.
+    - A list of commands will appear.
+
+![Bun Installed](./Snapshots_and_Media/Bun_Installed.png)
+
+### Creating Project Structure
+
+- To create a project, using Bun, we want to run: `bun init` in the directory we want to hold our app in
+- Once you init the project a question will appear:
+  - ```
+    Select a project template
+        Blank // This is used in this part of the course
+        React
+        Library
+    ```
+- Once project is initilized a few files are created:
+  - .gitignore
+  - index.ts
+  - tsconfig.json (for editor autocomplete)
+  - README.md
+
+- Bun has a feature called "**_Workspace_**," which lets us manage multiple sub-projects like a client and a server application from a single place.
+  - _Also avaliable in Node.js_
+- By **Workspace** convention, we put all our sub-projects a directory called "_Packages_"
+  - and sub-directories for our client app, and another for our server app
+
+![Packages Directory Structure](./Snapshots_and_Media/packages_dir_structure.png)
+
+- After adding our directories, we have to declare our _Workspaces_ in our `package.json` file
+  - ```json
+    "...":{...},
+      "workspaces":[
+        "packages/client",
+        "packages/server"
+        // "packages/*" this syntax can be used to refer to all directories in the packages direrectory as workspaces
+      ]
+    ```
