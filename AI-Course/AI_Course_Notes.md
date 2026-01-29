@@ -243,3 +243,22 @@
         // "packages/*" this syntax can be used to refer to all directories in the packages direrectory as workspaces
       ]
     ```
+
+### Creating the Backend
+
+- Init another Bun project within the `server` directory in your `packages` directory of your main project
+  - After running `bun init` from `packages/server` folder you see `node_modules` folder on the **root** and **server** folder levels, but the server’s `node_modules` folder is technically **NOT** a real location of your installed dependencies. The dependencies are still located on the root level. After you install any dependency, check out the `packages/server/node_modules` folder you’ll see that it contains only **_symbolic links_** that refer to the **root node_modules** folder.
+    - > It use to be that there was only one `node_module` directory at the root Bun project, but now you see them in each workspace package.
+  - to install packages in Bun you'll need to run a command as:
+    ```cmd
+      C:\Users\my-app\packages\sever> bun add <package-you-want-to-install>
+    ```
+- In the `package.json` directory you can set up scripts to change your applicaiton start command (origionally was: `bun run index.ts`) and even set up new ones for different enviornment like a dev or test enviorment.
+  - ```json
+      server>package.json
+
+       "scripts": {
+          "start": "bun run index.ts",
+          "dev": "bun --watch run index.ts"
+        },
+    ```
