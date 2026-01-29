@@ -1,41 +1,41 @@
 # What is React
 
 - JavaScript library created by Facebook that is the most widely used for Frontend development
-- We use React to create Components that simplifies the DOM and DOM elements
-  - Components help us create resuable, modular, and better organized code
-- An React application is a tree of components, with the app being the Root and all the other components comming together in layers to make the full application
+- We use React to create Components that simplify the DOM and DOM elements
+  - Components help us create reusable, modular, and better-organized code
+- A React application is a tree of components, with the app being the Root and all the other components coming together in layers to make the full application
 
 # Component Tree
 
-- React can use function or class base components
-  - more modern application uses function based, but legacy react apps may use class base
-- App.tsx being the root component and all other components are the children, React take this componet tree and creates a JavaScript component call the **virtual dom**.
+- React can use function or class-based components
+  - more modern application uses function based, but legacy React apps may use class-based
+- App.tsx being the root component, and all other components are the children. React takes this component tree and creates a JavaScript component called the **virtual dom**.
 
 ## The Virtual Dom
 
 > It’s a lightweight, in-memory representation of our component tree using nodes.
 
-- When the state or data in a component changes, in a child component, then react updates the node in the virual dom to reflect those changes
-- then it compares the current and new virtual dom and change those nodes
+- When the state or data in a component changes, in a child component, then React updates the node in the virual dom to reflect those changes
+- then it compares the current and new virtual dom and changes those nodes
 - This is all done with the **ReactDom** library
   > mobile apps uses **React Native** library
 
-# React Ecosytem
+# React Ecosystem
 
-- Unlike React there is Angular and Vue which are frameworks
+- Unlike React, there are Angular and Vue, which are frameworks
 
-## differnce between a Library and a Framework
+## Difference between a Library and a Framework
 
 > A **library** is a tool that provides specific functionality (tool)
-> A **Framework** is a set of tools and guidlines for building applicaitons (toolset)
+> A **Framework** is a set of tools and guidelines for building applications (toolset)
 
 - React is only good for making dynamic and interactive UIs
   - we need additional tools for other concerns like: _routing, http, managing app state, internationalization, form validation, animations..._
-    - The good thing React doesn't have an opinion for the tools we use to address any of the concerns above
+    - The good thing is that React doesn't have an opinion on the tools we use to address any of the concerns above
 
 ---
 
-# Fundementals of React
+# Fundamentals of React
 
 - Building components
 - Rendering markup with JSX
@@ -43,27 +43,26 @@
 - Passing input via props
 - Debugging React apps
 
-## Creating a componont
+## Creating a component
 
-- Most commonly used web styling used today is bootstrap
-- Elements can be wrapped in parent elements within our return value of our fucntion components
-  - This is to pervent multiple, seperate, elements in our applicaiton which breaks our react applicaiton.
-    > the reason being that react will try to conver the first elelment into html while hiccuping on the following
-- A commmon wrapper element used is a `Fragment` and can either be imported from react itself as `import { Fragment } from "react";`, or not imported at all and simply use empty brackets `<></>`. This tells react to use a fragment which is an element used to _not_ add an elemnt to the dom.
+- The most commonly used web styling used today is Bootstrap
+- Elements can be wrapped in parent elements within the return value of our function components
+  - This is to prevent multiple, separate elements in our applicaiton which breaks our react applicaiton.
+    > the reason being that React will try to convert the first element into html while hiccuping on the following
+- A common wrapper element used is a `Fragment` and can either be imported from React itself as `import { Fragment } from "react";`, or not imported at all and simply use empty brackets `<></>`. This tells React to use a fragment, which is an element used to _not_ add an element to the dom.
 
-- To render a list in JSX, we use the ‘array.map()’ method. When mapping items, each
-  item must have a unique key, which can be a string or a number.
+- To render a list in JSX, we use the ‘array.map()’ method. When mapping items, each item must have a unique key, which can be a string or a number.
 
 - Element can be populated dynamically in the dom using variables and methods.
 
   > an `if` statement or ternary operator
 
   > Inserting data dynamically can be done using curly brackets`{}`
-  > You can use curly brackets to also make method refrences or insert inline methods into dom elements
+  > You can use curly brackets to also make method references or insert inline methods into dom elements
 
-  - These can be use to dynamaclly handle events (_event handlers_) or change element classes
+  - These can be used to dynamically handle events (_event handlers_) or change element classes
 
--**State** are Data managed by a component, similar to local variables
+-**State** is data managed by a component, similar to local variables
 
 - **mutable** variables, or data that can change over time
   > `useState()` is a function that we can use to set dynamic functionality base off a boolean value
@@ -72,36 +71,36 @@
 import { useState } from "react";
 //===================
 const [alertVisable, setAlertVisaibility] = useState(false);
-// use setAlertVisability() to set the value of the state of said componnet
+// use setAlertVisability() to set the value of the state of said component
   {alertVisable && (<Alert onClose={() => setAlertVisaibility(false)}>I'm an alert</Alert>)}
 ```
 
-- Each component will have their own **state**
-- **Hooks** are function that we use to utilize built-in features in react.
+- Each component will have its own **state**
+- **Hooks** are functions that we use to utilize built-in features in React.
 
   - ex: State hook -> `const arr = useState() // returns an array` that we can destructure to handle state changes in the dom
 
-- **Props** (Properties): the imputs/arguments to our components.
+- **Props** (Properties): the inputs/arguments to our components.
   - Props are **immutable**
-  - Props can be set to any data type, literals or functions
-    > if you call a prop function you will simply refrence it and not initialize it with parentheses `()`
+  - Props can be set to any data type, literals, or functions
+    > If you call a prop function, you will simply reference it and not initialize it with parentheses `()`
 
-> **React Dev Tools** is a browser extension that we can use to view the structure of our react page and how each componnent relates to the root app. we can also see all the _props_ and which component renders the selected component. You can even see the source code.
+> **React Dev Tools** is a browser extension that we can use to view the structure of our React page and how each component relates to the root app. We can also see all the _props_ and which component renders the selected component. You can even see the source code.
 
 # Styling using CSS
 
 ## Plain / Vanilla
 
-- This is simple css implementation.
+- This is a simple css implementation.
   - create `.css` file, and
-  - import file into the respected `.tsx` file that requires said styling
-    > Problem! can clash with other styling with the same name (this can be solved in CSS Module)
+  - import file into the respective `.tsx` file that requires said styling
+    > Problem! can clash with other styling with the same name (this can be solved in the CSS Module)
 
 ## CSS Module
 
 - This allows for style to be called as a normal and unique JavaScript object.
-  > the uniqueness of the style object is what allows resuability of style class names
-- if you want multiple styles at once, we can wrap all the styles in an array `[]` and then call the `.join(' ')` which will join each style class with a space.
+  > The uniqueness of the style object is what allows resuability of style class names
+- If you want multiple styles at once, we can wrap all the styles in an array `[]` and then call the `.join(' ')`, which will join each style class with a space.
 
   - This syntax can be used to call style classes dynamically since the styling behaves like an object
 
@@ -153,15 +152,15 @@ npm i @types/styled-components
 
 ```
 
-- Styled Components allows users to make style classes for specific dom elmenets, allows for uniformed designing for all instance of said element.
-  - Doing so also can rename those elements:
+- Styled Components allows users to make style classes for specific dom elmenets, allowing for uniform designing for all instances of said element.
+  - Doing so can rename those elements:
   ```
   const List = styled.ul`
   list-style: none;
   padding: 0;
   `;
   ```
-- You can create a prop interface for setting dynaming properties for your styling
+- You can create a prop interface for setting dynamic properties for your styling
 
   ```
   interface ListItemProps {
@@ -169,7 +168,7 @@ npm i @types/styled-components
   }
   ```
 
-  - you can then use the property in the decleration of the styling and in its instance:
+  - you can then use the property in the declaration of the styling and in its instance:
     ```
       const ListItem = styled.li<ListItemProps>`
       padding: 5px 0;
@@ -188,7 +187,7 @@ npm i @types/styled-components
 
 ## Inline Style
 
-- Inserting styling inline with the element you wanting to add css to
+- Inserting styling inline with the element you want to add css to
 - can be messy and harder to maintain, but are easy to implement
   - should be used as a last resort
 
@@ -205,7 +204,7 @@ npm i @types/styled-components
 
 - We can add icons to our application using the **react-icons** library
 
-# Seperation of Concern
+# Separation of Concern
 
 Divide a program into distinct sections where each section handles a specific functionality, rather than having everything in one place. This ensures that our program will be:
 
@@ -216,16 +215,16 @@ Divide a program into distinct sections where each section handles a specific fu
 
 ---
 
-# State Managment
+# State Management
 
 ## State Hook
 
 - React updates state asynchronously
 - Stored outside of the component
 - Use hooks at the top level of our component
-  - The order of state hooks matter! The variables are stored in an array where each index is the order of when each state hook is declared in the application.
-    > if a state hook is declared in a for loop or other dynamic block it could disrupt the order of the varibles stored in React.
-- When declaring a state variable, you can make simple single value variable **or** declare objects
+  - The order of state hooks matters! The variables are stored in an array where each index is the order in which each state hook is declared in the application.
+    > If a state hook is declared in a for loop or other dynamic block, it could disrupt the order of the variables stored in React.
+- When declaring a state variable, you can make a simple single-value variable **or** declare objects
   > avoid deeply nested structures
 
 ### best practices with state hooks
@@ -236,18 +235,18 @@ Divide a program into distinct sections where each section handles a specific fu
 
 ## Purity
 
-- **Pure Function**: A function that gives the same result everytime
+- **Pure Function**: A function that gives the same result every time
   > _Inpure_: returns different results everytime
 
 React is designed around the same idea
 
-- Our applications components will be rendered twice!
+- Our application components will be rendered twice!
   - 1 to check for any errors or problems
   - 2 to finally update the ui
 
 ## Managing Componnets State
 
-- The state hook allows us to add state to function componenets.
+- The state hook allows us to add state to function components.
 
 ```
  const [count, setCount] = useState(0); // count is state, setCount updates it, useState is the state hook
@@ -255,16 +254,16 @@ React is designed around the same idea
 ```
 
 - Hooks can only be called at the top level of components.
-- State variables stay in memory (as long as the compononet is still on screen)
-  - different from local variables in a funciton
+- State variables stay in memory (as long as the component is still on screen)
+  - different from local variables in a function
   - State is tied to the component **instance**
-  - React will destroy the componenet and its state when it is removed from the screen
-- Updates are asynchronous, and aren't applied immediately
-  - They're applied after all event handlers are finihsed executing.
+  - React will destroy the component and its state when it is removed from the screen
+- Updates are asynchronous and aren't applied immediately
+  - They're applied after all event handlers are finished executing.
   - React will re-render the component after the state is updated
 - Organized state variables into an Object
 - Avoid "_deeply nested_" state object
-  - "_flat objects_" are perfered, and easier to deal with.
+  - "_flat objects_" are preferred, and easier to deal with.
 
 ```javascript
 // Updating Object
@@ -316,17 +315,17 @@ const [bugs, setbugs] = useState([
 setBugs(bugs.map((bug) => (bug.id === 1 ? { ...bug, fixed: true } : bug)));
 ```
 
-- Keep state as minimal as possible
+- Keep the state as minimal as possible
   - Avoid redundant state variables that can be computed from existing variables
 - **Pure Function**: A function that returns the same result given the same input.
   - Shouldn't modify objects outside of the function
-  - React expect Pure Function Components -> Always return the same JSX with same inputs
-    - avoid making changes in the render phase
-- **Strict Mode** helps us catch potential problems such as impure componenets.
+  - React expects Pure Function Components -> Always return the same JSX with the same inputs
+    - Avoid making changes in the render phase
+- **Strict Mode** helps us catch potential problems such as impure components.
   - Renders components twice to detect any potential side effects.
 - Objects & Arrays should be treated as immutable objects.
-  - create new objects to update state.
-- **Immer** is a library that can help us update objects and arrays in a more consise and mutable way.
+  - Create new objects to update the state.
+- **Immer** is a library that can help us update objects and arrays in a more concise and mutable way.
   ```
   npm install immer
   ```
@@ -340,14 +339,14 @@ setBugs(bugs.map((bug) => (bug.id === 1 ? { ...bug, fixed: true } : bug)));
   );
   ```
 - To share state between components:
-  1. Lift the state up to the cloest parent componenet.
+  1. Lift the state to the closest parent component.
   2. Then pass it down as props to child components.
   - The Component that holds some state should be the one that updates it.
     - _if a child component needs to update some state, it should notify the parent component using a callback function passed down as a prop._
 
 # Building Forms
 
-- `onSubmit` attribute is set in the **Props** interface and implemention is passed through the parent component of the form component
+- `onSubmit` attribute is set in the **Props** interface, and implementation is passed through the parent component of the form component
 
 ```typescript
 // Handling Form Submission
@@ -360,8 +359,8 @@ const App = () => {
 };
 ```
 
-- **Ref Hooks** is another built in hook in React that we can use to refrence the value of an input field upon submitting a from.
-  - _There is a small performance advantage when using ref hooks, since state hooks rerenders your entire app with every change; ref does't rerender but stores value in `.current`_
+- **Ref Hooks** is another built-in hook in React that we can use to reference the value of an input field upon submitting a form.
+  - _There is a small performance advantage when using ref hooks, since state hooks rerenders your entire app with every change; ref doesn't rerender but stores value in `.current`_
 
 ```typescript
 // Accessing Input Fields using the Ref Hook
@@ -382,7 +381,7 @@ const App = () => {
 };
 ```
 
-- State hook can be used to create state variables and update them as the user types into input fields.
+- The state hook can be used to create state variables and update them as the user types into input fields.
 
 ```typescript
 // Managing Form State using the State Hook
@@ -423,7 +422,7 @@ const App = () => {
 }
 ```
 
-- React Hook Form supports the standard HTML attributes for data validation such as required, minLength, etc.
+- React Hook Form supports the standard HTML attributes for data validation, such as required, minLength, etc.
 
 ```typescript
 // Validation using HTML 5 Attributes
@@ -448,7 +447,7 @@ const App = () => {
 };
 ```
 
-- We can validate our forms using schema-based validation usch as **_joi, yup, zod_**, etc. With these libraries, we can define all our validation rules in a single place called a schema.
+- We can validate our forms using schema-based validation such as **_joi, yup, zod_**, etc. With these libraries, we can define all our validation rules in a single place called a schema.
 
 ```typescript
 // Schema-Based Validation with Zod
@@ -486,7 +485,7 @@ const App = () => {
 > Bonus tips for validation in forms
 
 ```typescript
-// Disableing the Submit Button
+//Disable the Submit Button
 
 const App = () => {
   const {
@@ -506,34 +505,34 @@ const App = () => {
 ## Understand the Effect Hook
 
 - `useEffect()` is used when we want to execute a piece of code after the render
-  - Our React componenets need to be _Pure Functions_; thus keeping any code out of the render phase.
-    - However this limits saving data in the browser/local storage, calling the server to fetch/save data, or manually modifing the DOM
+  - Our React components need to be _Pure Functions_; thus keeping any code out of the render phase.
+    - However, this limits saving data in the browser/local storage, calling the server to fetch/save data, or manually modifying the DOM
     - That's where the **Effect Hook** comes in
 - Multiple Effects can be executed within the same components.
-  - each new effect will run in order after each render of the component
+  - Each new effect will run in order after each render of the component
 
 ## Effect dependency
 
-- sometimes we want more control over when the effect is executed, and not just after each render.
-  - not controling this can lead to infinate loops of the effect hook.
-- To pervent this we can pass the second argument of the `useEffect()` function:
+- Sometimes we want more control over when the effect is executed, and not just after each render.
+  - Not controlling this can lead to infinite loops of the effect hook.
+- To prevent this, we can pass the second argument of the `useEffect()` function:
 
 ```typescript
 useEffect(() => {}, []);
 ```
 
-> The Array block stops the infient loops and executes the Effect function only once
+> The Array block stops the infinite loops and executes the Effect function only once
 
 ```typescript
 useEffect(() => {}, [randomVal...]);
 ```
 
-> The Array block, with a value(s) within it, stops the infient loops, and executes the Effect function only when said value(s) changes.
+> The Array block, with a value(s) within it, stops the infinite loops and executes the Effect function only when said value(s) change.
 
 ## Effect Clean Up
 
 - Sometimes we need to execute some "_clean up_" code to disconnect or unsubscribe a user from some service or server.
-  - This is done by adding clean up code within the `useEffect` function:
+  - This is done by adding clean-up code within the `useEffect` function:
 
 ```typescript
 const connect = () => console.log("connecting...");
@@ -553,7 +552,7 @@ function App() {
 
 - We can use `fetch()` but we could also use **Axios**, a very popular npm library used to make http reqeusts.
 - `npm install axios`
-- using Axios, we can make a server reqeust within the `useEffect()` like this:
+- using Axios, we can make a server request within the `useEffect()` like this:
 
 ```typescript
 useEffect(() => {
@@ -561,7 +560,7 @@ useEffect(() => {
 }, []);
 ```
 
-> This return a **_Promise_**, an object that holds the eventural result or failure of an asynchronus operation.
+> This returns a **_Promise_**, an object that holds the eventual result or failure of an asynchronous operation.
 
 ```typescript
 useEffect(() => {
@@ -594,7 +593,7 @@ return (
 );
 ```
 
-> Like the `.then()` method, Axios also has a catch error method, `.catch()` where we can pass an error and display that error uing our state hook.
+> Like the `.then()` method, Axios also has a catch error method, `.catch()`, where we can pass an error and display that error using our state hook.
 
 - (IF YOU WANT TO BE STUPID AND STINKY) There is another way to do the above implementation using `await` and `async`:
 
@@ -616,9 +615,9 @@ useEffect(() => {
 }, []);
 ```
 
-## Cancelling a reqeust
+## Cancelling a request
 
-- When dealing with server request, sometimes you'll want to cancel the request to the server because the data is no longer needed (user navigates to another page). We can use the `AbortController()` method:
+- When dealing with server requests, sometimes you'll want to cancel the request to the server because the data is no longer needed (user navigates to another page). We can use the `AbortController()` method:
 
 ```typescript
 useEffect(() => {
@@ -627,7 +626,7 @@ useEffect(() => {
   axios
     .get<User[]>(
       "https://jsonplaceholder.typicode.com/users",
-      // here you'll add a second perameter, configuration object
+      // here you'll add a second parameter, a configuration object
       { signal: controller.signal }
     )
     .then((res) => setUsers(res.data))
@@ -644,7 +643,7 @@ useEffect(() => {
 
 ### loading indicator
 
-- This is a simple state hook implementation. Just creat a state for your loading state, add it to before and after your fetch reqeust has finished (\*_true_ before the request is made, and _false_ at the end of your `.then` and `.catch` blocks\*), and finally add your loading element using bootstrapL:
+- This is a simple state hook implementation. Just create a state for your loading state, add it to before and after your fetch request has finished (\*_true_ before the request is made, and _false_ at the end of your `.then` and `.catch` blocks\*), and finally add your loading element using bootstrapL:
 
 ```typescript
 const [isLoading, setLoading] = useState(false);
@@ -694,11 +693,11 @@ function App(){
 ```
 
 - To clean up any resources that were created by the Effect Hook, we can include a **clean-up function** that runs when the component _unmounts_ or the _dependencies change_.
-  > Reacts handles front-end development; but we need A Back-end to handle business logic, data storage, and other functionality.
-- The communication between the front-end and teh back-end happens over HTTP, the same protocol that powers the web.
+  > Reacts handles front-end development, but we need A Back-end to handle business logic, data storage, and other functionality.
+- The communication between the front-end and the back-end happens over HTTP, the same protocol that powers the web.
   - The front-end sends an HTTP request to the back-end, and the back-end sends an HTTP response back.
   - Each HTTP request and response contains a header and a body.
-  - The header provides metadata about the message, such as the content type and HTTP status code, while tha body contains the actual data being sent or received.
+  - The header provides metadata about the message, such as the content type and HTTP status code, while the body contains the actual data being sent or received.
 - To send HTTP requests to the backend, we can use **axios**, a popular JavaScript library. _Axios_ makes it easy to send requests.
 
 ```typescript
@@ -718,8 +717,8 @@ axios.post("http://...", newUser);
 axios.put("http://...", updatedUser);
 ```
 
-- When we send HTTP requests with the _effect hook_, we should provide a _clean-up function_ to **cancel** the request if the component is unmounted before teh response is received.
-  - This is important to prevent errors, especially if the user navigates to different page while the request is still pending.
+- When we send HTTP requests with the _effect hook_, we should provide a _clean-up function_ to **cancel** the request if the component is unmounted before the response is received.
+  - This is important to prevent errors, especially if the user navigates to a different page while the request is still pending.
 
 ```typescript
 useEffect(()=>{
@@ -748,13 +747,13 @@ useEffect(() => {
 ```
 
 - **Custom hooks** are a way to reuse code logic between multiple components.
-  - By encapsulating logic in a custom hook, we can create reusable pieces of code that can be shared across components without duplication the code.
+  - By encapsulating logic in a custom hook, we can create reusable pieces of code that can be shared across components without duplicating the code.
   - **Custom hooks** can be used to handle common tasks, such as fetching data, and can help to make our code more organized and easier to maintain.
 
 # Secure API Key Mgmt
 
 - **DO NOT STORE YOUR API KEYS IN THE SOURCE CODE!** This is just a temporary solution during development.
-  > Api Keys should be stored as an enviornment variable accessable through our backend server, and nowhere on our front end. This keeps the API hidden on our client side.
+  > Api Keys should be stored as an environment variable accessible through our backend server, and nowhere on our front end. This keeps the API hidden on our client side.
 
 ---
 
@@ -762,7 +761,7 @@ useEffect(() => {
 
 ---
 
-# Key Comands and features:
+# Key Commands and features:
 
 ## commands
 
@@ -773,4 +772,4 @@ useEffect(() => {
 
 ## freatures
 
-- When orginzing your components into respected folders, you can create a `index.tsx` file that _imports_ and _exports_ the `.tsx` file of your component (not named index), so you only have to reference the folder name and not the file directly in the folder.
+- When organizing your components into respective folders, you can create an `index.tsx` file that _imports_ and _exports_ the `.tsx` file of your component (not named index), so you only have to reference the folder name and not the file directly in the folder.
