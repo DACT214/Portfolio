@@ -262,3 +262,38 @@
           "dev": "bun --watch run index.ts"
         },
     ```
+
+- Install your framework like **Express.js**
+  - ```cmd
+      C:\Users\my-app\packages\sever> bun add express
+    ```
+- In your new Bun application, your new server, you want configure your environment variables.
+  - Save your environment variables, like your OpenAI API Key, in a `.env` file in your `server` directory and make sure it can be called into your server applicaiton
+
+    ```javascript
+    import express from "express";
+
+    const app = express();
+    const port = Bun.env.PORT || 3000;
+
+    app.get("/", (req, res) => {
+      res.send(Bun.env.OPENAI_API_KEY + "!");
+    });
+    ```
+
+  - > Bun handles environment variables automatically, but will take the system set variables over anthing else. To gain more control over your variables you can install (add) dotenv and config what file you want to gather your environment variables from.
+
+### Createing the Frontend
+
+- In the `client` directory you'll need to install **Vite** (_Or another frontend build tool or framework_) to create a **React** application.
+  - ```cmd
+    C:\Users\my-app\packages\client> bun create vite .
+    ```
+
+    - This command makes the React applicaiotn within the client directory
+      - remove the `.` at the end to make a whole new directory
+
+  - Once you create your React app, you can test the run command:
+    - ```cmd
+      C:\Users\my-app\packages\client> bun run dev
+      ```
