@@ -255,7 +255,7 @@
     ```
 - In the `package.json` directory you can set up scripts to change your applicaiton start command (origionally was: `bun run index.ts`) and even set up new ones for different enviornment like a dev or test enviorment.
   - ```json
-      server>package.json
+      // server>package.json
 
        "scripts": {
           "start": "bun run index.ts",
@@ -271,6 +271,8 @@
   - Save your environment variables, like your OpenAI API Key, in a `.env` file in your `server` directory and make sure it can be called into your server applicaiton
 
     ```javascript
+    //client>src>App.tsx
+
     import express from "express";
 
     const app = express();
@@ -297,3 +299,46 @@
     - ```cmd
       C:\Users\my-app\packages\client> bun run dev
       ```
+
+### Starting Both Apps at once!
+
+- Since it is tedious to start the server and the client separatlly in two different terminals. Lets do it at the same time!
+- At the **full project's root** install concurrently:
+  - ```cmd
+      C:\Users\my-app> bun add -d concurrently
+    ```
+  - This library allows us to start multiple applications using a single command
+  - ![concurrently install](./Snapshots_and_Media/concurrently%20install.png)
+
+- Once installed we need to configure the concurrent run script.
+  - ```javascript
+    // my-app>index.ts
+
+    import concurrently from "concurrently";
+
+    concurrently([
+      {
+        name: "server",
+        command: "bun run dev",
+        cwd: "packages/server",
+        prefixColor: "yellow",
+      },
+      {
+        name: "client",
+        command: "bun run dev",
+        cwd: "packages/client",
+        prefixColor: "blue",
+      },
+    ]);
+    ```
+
+    ```json
+    // my-app>package.json
+        "scripts": {
+          "dev": "bun run index.ts"
+        },
+    ```
+
+- After the scripts are configured, we can run the `bun run dev` command and get something like this:
+  ![Concurrent Running 2 apps](./Snapshots_and_Media/concurrently%20run%20script.png)
+  - > The names and colors are set within the `concurrently()` script and are nicely labled within your terminal when running.
