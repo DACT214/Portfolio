@@ -37,6 +37,8 @@ I have worked with companies and clients like:
 
 Covering industries like Consulting, Education, Finance, State and Federal Government.
 
+If you want a more indepth description of my work experience and the skills I've aquired, contact me at my email [Here 📨](mailto:carrillo.dact13@gmail.com)
+
 ## Portfolio Layout
 
 This portfolio, by its nature, is continuously being developed. It serves as my **workspace** and **storage for learning materials** as well as a place for **initial project development**. I have practiced _algorithms_, created small _projects_, and taken _courses_, all of which are showcased in this portfolio. I also use this portfolio to continuously practice the habit of utilizing _**git**_ repositories.
