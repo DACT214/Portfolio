@@ -572,3 +572,5 @@
       "*.{js,jsx,ts,tsx,css}": "prettier --write"
     }
     ```
+
+> Husky only works at the root of the project. So I had to do a work-around considering my Repo is a polyglot of projects. 
