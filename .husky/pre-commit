@@ -1,1 +1,6 @@
-bunx lint-staged
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+echo "Running Prettier in my-app..."
+cd AI-Course/my-app
+bunx prettier --write .
