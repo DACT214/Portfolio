@@ -466,7 +466,9 @@
     ```
 
     - The components you install will be stored in the new `components\ui` folder
+
       ![shadcn component folder](./Snapshots_and_Media/Shadcn_componet_folder.png)
+
     - Then you can add the component to your UI
 
       ```JavaScript
@@ -526,4 +528,47 @@
   - Once all set up, you can run the format command you made:
     ```cmd
     C:\Users\my-app> bun run format
+    ```
+
+### Automating Pre-Commit Checks with Husky
+
+- Since we now have a formatter that needs to be run before we commit our code we could forget to do so... So lets automate the process with Husky!
+
+- At https://typicode.github.io/husky/get-started.html we can copy the script and install Husky as a dependency
+  ```cmd
+    C:\Users\my-app> bun add --dev husky
+  ```
+- This will create a `.husky` directory with a `pre-commit` file
+
+  ![.husky directory](./Snapshots_and_Media/huskyDir.png)
+
+- In the `pre-commit` file add your pre-commit scripts
+
+  ```
+  //my-app/.husky/pre-commit
+
+    bun run format
+  ```
+
+- Now we only want to format only the staged files
+  - For that we need a seprate library called [Lint Stage](https://www.npmjs.com/package/lint-staged)
+
+  ```cmd
+    C:\Users\my-app> bun add --dev lint-staged
+  ```
+
+  - Now we can modify our `pre-commit` file to include lint-staged init
+
+    ```
+    //my-app/.husky/pre-commit
+
+      bunx lint-staged
+    ```
+
+  - After create a new file: `.lintstagedrc` and add the files you want formatted before you commit
+    ```json
+    // my-app/.linttagedrc
+    {
+      "*.{js,jsx,ts,tsx,css}": "prettier --write"
+    }
     ```
