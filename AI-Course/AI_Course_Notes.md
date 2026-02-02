@@ -345,7 +345,7 @@
 
 ### Setting Up TailwindCSS
 
-- Tailwind is a utility-first CSS framework
+- [Tailwind](https://tailwindcss.com/docs/installation/using-vite) is a utility-first CSS framework
   - It included classes like:
     - flex,
     - pt-4
@@ -354,11 +354,11 @@
 - **To install Tailwind for Vite**
   - You'll need to install 2 libraries:
     ```cmd
-        C:\Users\my-app> bun add tailwindcss @tailwindcss/vite
+        C:\Users\my-app\packages\client> bun add tailwindcss @tailwindcss/vite
     ```
   - After you need to configure your vite plugin
 
-    ```typescript
+    ```javascript
     // vite.config.ts
     import { defineConfig } from "vite";
     import tailwindcss from "@tailwindcss/vite"; //add this line
@@ -367,3 +367,118 @@
       plugins: [tailwindcss()], //add this method to array
     });
     ```
+
+  - Then import Tailwind into your `index.css` file
+    ```css
+    @import "tailwindcss";
+    ```
+
+### Setting Up Shadcn
+
+- [Shadcn](https://ui.shadcn.com/) is a component library with modern customizable ui components.
+- Shadcn **uses Tailwind**
+- **To install with Shadcn:**
+  - Install and configure Tailwind (_like shown above_)
+  - Then we need to modify our _TypeScript Configuration_ files
+
+    ```json
+    // tsconfig.json
+    {
+      "files": [],
+      "references": [
+        { "path": "./tsconfig.app.json" },
+        { "path": "./tsconfig.node.json" }
+      ],
+
+      // added for Shadcn
+      "compilerOptions": {
+        "baseUrl": ".",
+        "paths": {
+          "@/*": ["./src/*"]
+        }
+      }
+    }
+    ```
+
+    ```json
+    // tsconfig.app.json
+    {
+      "compilerOptions": {
+    // added for Shadcn
+        "baseUrl": ".",
+        "paths": {
+          "@/*": ["./src/*"]
+        },
+    // ============
+        "tsBuildInfoFile": ...
+    }
+    ```
+
+  - Next update the Vite Configuration file
+    - Add node types dependency
+
+    ```cmd
+      C:\Users\my-app\packages\client> bun add -D @types/node
+    ```
+
+    - Modify `vite.config.ts`
+
+    ```javascript
+    // vite.config.ts
+    import path from "path"; // add this
+    import tailwindcss from "@tailwindcss/vite";
+    import react from "@vitejs/plugin-react";
+    import { defineConfig } from "vite";
+
+    // https://vite.dev/config/
+    export default defineConfig({
+      plugins: [react(), tailwindcss()],
+      // add resolve
+      resolve: {
+        alias: {
+          "@": path.resolve(__dirname, "./src"),
+        },
+      },
+    });
+    ```
+
+  - Lastly Run the CLI
+
+    ```cmd
+      C:\Users\my-app\packages\client> bunx --bun shadcn@latest init
+    ```
+
+    - It will ask a few questions
+      ![Shadcn color](./Snapshots_and_Media/Shadcn_color.png)
+
+  - In the end it will create a file called `component.json` that keeps track of the components you install, and now you're ready to use **Shadcn Components**
+    - There will also be additnial CSS added to the `index.css` file based on our chosen theme
+
+- **Using Shadcn Components**
+  - From [Shadcn Components](https://ui.shadcn.com/docs/components) page you can select any component you want to use.
+    ![Component Selection Page](./Snapshots_and_Media/Component-page.png)
+  - Selecting a component will land you on the documentation of said component.
+    ![Component's Page](./Snapshots_and_Media/Componets_doc_page.png)
+  - To use the component, you need to install it into your project
+
+    ```cmd
+      C:\Users\my-app\packages\client> bunx --bun shadcn@latest add button
+    ```
+
+    - The components you install will be stored in the new `components\ui` folder
+      ![shadcn component folder](./Snapshots_and_Media/Shadcn_componet_folder.png)
+    - Then you can add the component to your UI
+
+      ```JavaScript
+      // App.tsx
+        import { Button } from "./components/ui/button";
+
+        ...
+
+          return (
+            <div className="p-4">
+              <p className="font-bold text-3xl">{message}</p>
+              <Button variant={"outline"}>CLick Me</Button>
+            </div>
+          );
+      ```
