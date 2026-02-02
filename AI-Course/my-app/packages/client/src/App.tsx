@@ -11,10 +11,10 @@ function App() {
    }, []);
 
    return (
-      <div className="p-4">
-         <p className="font-bold text-3xl">{message}</p>
+   <div className="p-4">
+                     <p className="font-bold text-3xl">{message}</p>
          <Button variant={'outline'}>CLick Me!</Button>
-      </div>
+            </div>
    );
 }
 
