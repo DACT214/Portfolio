@@ -482,3 +482,48 @@
             </div>
           );
       ```
+
+### Setting up Formatter
+
+- I use Prettier as my code formatter. However, since this is a personal project, I don't believe I need to set up the Prettier as a development dependency in this project... But you can.
+- **Setting up Prettier as a Dependency**
+  - Install Prettier extension to your IDE.
+  - Then create a file in you root directory called: `.prettierrc` and add your prefrences on prettier configurations:
+    ```json
+    //Example
+    {
+      "singleQuote": true,
+      "semi": true,
+      "trailingComma": "es5",
+      "printWidth": 80,
+      "tabWidth": 3
+    }
+    ```
+  - Install Prettier as dependency to your root project:
+
+  ```cmd
+    C:\Users\my-app> bun add -d prettier
+  ```
+
+  - Then modify the root `package.json` file:
+
+    ```json
+    //my-app/package.json
+    "scripts": {
+      "dev": "bun run index.ts",
+      "format": "prettier --write ." // add format script here
+    },
+    ```
+
+    - This will start from the current directory as part of formating our files
+
+  - To avoid formating 3rd party code like the `node_models` we want to set up a `.prettierignore` in the root directory:
+    ```
+    //my-app/.pretterignore
+      node_modules
+      bun.lock //lock file use by bun (shouldn't touch)
+    ```
+  - Once all set up, you can run the format command you made:
+    ```cmd
+    C:\Users\my-app> bun run format
+    ```
