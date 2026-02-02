@@ -3,7 +3,7 @@
 ## Rise of AI Engineering
 
 - AI Engineers don't train LLM but use pre-trained LLM to create smarter apps
-- AI is being used to createa  quick takeaway from long threads
+- AI is being used to createa quick takeaway from long threads
 
 ### What is a LLM?
 
@@ -342,3 +342,28 @@
 - After the scripts are configured, we can run the `bun run dev` command and get something like this:
   ![Concurrent Running 2 apps](./Snapshots_and_Media/concurrently%20run%20script.png)
   - > The names and colors are set within the `concurrently()` script and are nicely labeled within your terminal when running.
+
+### Setting Up TailwindCSS
+
+- Tailwind is a utility-first CSS framework
+  - It included classes like:
+    - flex,
+    - pt-4
+    - text-center,
+    - rotate-90
+- **To install Tailwind for Vite**
+  - You'll need to install 2 libraries:
+    ```cmd
+        C:\Users\my-app> bun add tailwindcss @tailwindcss/vite
+    ```
+  - After you need to configure your vite plugin
+
+    ```typescript
+    // vite.config.ts
+    import { defineConfig } from "vite";
+    import tailwindcss from "@tailwindcss/vite"; //add this line
+
+    export default defineConfig({
+      plugins: [tailwindcss()], //add this method to array
+    });
+    ```
