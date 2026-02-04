@@ -576,3 +576,5 @@
 > Husky only works at the root of the project. So I had to do a work-around considering my repository is a polyglot of projects. Pleas refer to my work-around at the [root](../.) of the repository
 
 ## Building a chatbot
+### Chat API
+- 
