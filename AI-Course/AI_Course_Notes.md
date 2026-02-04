@@ -576,5 +576,79 @@
 > Husky only works at the root of the project. So I had to do a work-around considering my repository is a polyglot of projects. Pleas refer to my work-around at the [root](../.) of the repository
 
 ## Building a chatbot
+
 ### Chat API
-- 
+
+- First we need to introduce our chosen AI Model into our application
+  - > If you need to review how to choose a model, refer to the [Choosing the right Model](#choosing-the-right-model) section.
+
+  ```JavaScript
+    import OpenAI from 'openai';
+
+    // Insert Environment variables before initiating the app with express
+    // THIS APP IS NOT USING DOTENV
+    const client = new OpenAI({
+      apiKey: process.env.OPENAI_API_KEY,
+    });
+
+    // Enable JSON parsing right after initiating app
+    app.use(express.json());
+
+    app.post('/api/chat', async (req, res) => {
+      const { prompt } = req.body; // This is the input data for the AI model
+
+      // create the response with chosen AI model
+      const response = await client.responses.create({
+          model: 'gpt-4o-mini',
+          input: prompt,
+          temperature: 0.2,
+          max_output_tokens: 100,
+      });
+
+      res.json({ message: response.output_text });
+    });
+  ```
+  - This state of the AI chat will not retain memory thou...
+- To retaining memeory, _one way_ is by keeping a _global variable_ of keeping track of the last _**Response ID**_
+  - ```TypeScript
+      let lastResponseID: string | null = null; //Global Variable
+
+      app.post('/api/chat', async (req, res) => {
+        const { prompt } = req.body;
+
+        const response = await client.responses.create({
+            model: 'gpt-4o-mini',
+            input: prompt,
+            temperature: 0.2,
+            max_output_tokens: 100,
+            previous_response_id: lastResponseID, // Passing stored response ID, from previous response, into model memory
+        });
+
+        lastResponseID = response.id; //Storing NEW Response's ID into gobal variable 
+
+        res.json({ message: response.output_text });
+      });
+    ```
+    - > This is a temporary solution. This can only keep track of the last Response ID for **one conversation**. 
+- To retain memory for multiple users, conversations, we need to create a map of those conversations.
+  - ```TypeScript
+      const conversations= new Map<string, string>(); // Replaced the Global Variable with a Map
+
+      app.post('/api/chat', async (req, res) => {
+        const { prompt, conversationId } = req.body; // Now we need to pass through a unique identifier of the conversation, conversationId
+
+        const response = await client.responses.create({
+            model: 'gpt-4o-mini',
+            input: prompt,
+            temperature: 0.2,
+            max_output_tokens: 100,
+            previous_response_id: lastResponseID, // Passing stored response ID, from previous response, of our mentioned conversatonId
+        });
+
+        conversations.set(conversationId, response.id); // Once we recieve our response, we set it to our conversationId, with the response's ID
+
+
+        res.json({ message: response.output_text });
+      });
+    ```
+  - This method allows our chat bot to keep track of multiple user's conversations at once so each user can have their own experiance with the bot and not obtain the memory of another's conversation.
