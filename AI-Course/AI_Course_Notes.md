@@ -608,7 +608,9 @@
       res.json({ message: response.output_text });
     });
   ```
+
   - This state of the AI chat will not retain memory thou...
+
 - To retaining memeory, _one way_ is by keeping a _global variable_ of keeping track of the last _**Response ID**_
   - ```TypeScript
       let lastResponseID: string | null = null; //Global Variable
@@ -624,12 +626,14 @@
             previous_response_id: lastResponseID, // Passing stored response ID, from previous response, into model memory
         });
 
-        lastResponseID = response.id; //Storing NEW Response's ID into gobal variable 
+        lastResponseID = response.id; //Storing NEW Response's ID into gobal variable
 
         res.json({ message: response.output_text });
       });
     ```
-    - > This is a temporary solution. This can only keep track of the last Response ID for **one conversation**. 
+
+    - > This is a temporary solution. This can only keep track of the last Response ID for **one conversation**.
+
 - To retain memory for multiple users, conversations, we need to create a map of those conversations.
   - ```TypeScript
       const conversations= new Map<string, string>(); // Replaced the Global Variable with a Map
@@ -651,11 +655,15 @@
         res.json({ message: response.output_text });
       });
     ```
+
   - This method allows our chat bot to keep track of multiple user's conversations at once so each user can have their own experiance with the bot and not obtain the memory of another's conversation.
+
 ### Input Validation
+
 - Once we have our input structure set, we need to validate user input to ensure that they are within the limitation of our model.
 - The tool we use in this project is [Zod](https://zod.dev/), which allows us to define the shape of our objects, like incoming reqeust data, and easily validate them.
   - With **Zod** we can set validation to our reqeusts by setting response type, min/max length, and even set custom error messages
+
   ```TypeScript
     import z from 'zod';
 
@@ -677,12 +685,44 @@
 
     // If the validation fails return the error objects
    if (!parseResult.success) {
-      res.status(400).json(parseResult.error!.issues); 
+      res.status(400).json(parseResult.error!.issues);
       // Can use z.treeifyError(parseResult.error) for a simpler object of errors
       return;
    }
 
    ...
-  
+
    }
-  ``` 
+  ```
+
+### Error Handling
+
+- Simple... TryCatch it:
+
+  ```TypeScript
+    try{
+      // ALL the code relating to our Conversation with our AI Bot (Request body parsing, the getting a response, and coversation map update)
+
+      const { prompt, conversationId } = req.body;
+
+      const response = await client.responses.create({
+          model: 'gpt-4o-mini!',
+          input: prompt,
+          temperature: 0.2,
+          max_output_tokens: 100,
+          previous_response_id: conversations.get(conversationId),
+      });
+
+      conversations.set(conversationId, response.id);
+
+      console.log(response.output_text);
+
+      res.json({ message: response.output_text });
+
+    }
+    catch(error){
+    // Then handle the error if the above code fails
+      res.status(500).json({error:'Failed to generate a response.'})
+    }
+  ```
+
