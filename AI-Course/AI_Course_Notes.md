@@ -725,4 +725,13 @@
       res.status(500).json({error:'Failed to generate a response.'})
     }
   ```
+> # Refactoring
+> We need to make sure our Applicaiton has seperation of concers. This will orginize our code into layers and sections within those layers.
+> ## Layers
+> - **Controllers**: The gateway of our app, and handle recieveing HTTP requests and Sending HTTP responses
+> - **Services**: The App's logic 
+> - **Repositories**: Store or Recieve Data
+>
+> Refactoring our code, or coding with the above layer structure in mind allow our code to be more modular and scalable
+
 
