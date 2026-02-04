@@ -652,3 +652,37 @@
       });
     ```
   - This method allows our chat bot to keep track of multiple user's conversations at once so each user can have their own experiance with the bot and not obtain the memory of another's conversation.
+### Input Validation
+- Once we have our input structure set, we need to validate user input to ensure that they are within the limitation of our model.
+- The tool we use in this project is [Zod](https://zod.dev/), which allows us to define the shape of our objects, like incoming reqeust data, and easily validate them.
+  - With **Zod** we can set validation to our reqeusts by setting response type, min/max length, and even set custom error messages
+  ```TypeScript
+    import z from 'zod';
+
+    ...
+
+    const chatSchema = z.object({
+      prompt: z
+          .string()
+          .trim()
+          .min(1, 'Request is blank, please write something.')
+          .max(1000, 'Prompt is too long for our Model'),
+      conversationId: z.uuid(), // has a error message already that is easy to understand
+    });
+
+    app.post('/api/chat', async (req, res) => {
+
+    // We validate here
+   const parseResult = chatSchema.safeParse(req.body);
+
+    // If the validation fails return the error objects
+   if (!parseResult.success) {
+      res.status(400).json(parseResult.error!.issues); 
+      // Can use z.treeifyError(parseResult.error) for a simpler object of errors
+      return;
+   }
+
+   ...
+  
+   }
+  ``` 

@@ -1,5 +1,6 @@
 import express, { response } from 'express';
 import OpenAI from 'openai';
+import z from 'zod';
 
 // NOT USING DOTENV
 const client = new OpenAI({
@@ -19,7 +20,22 @@ app.get('/api/hello', (req, res) => {
 
 const conversations = new Map<string, string>();
 
+const chatSchema = z.object({
+   prompt: z
+      .string()
+      .trim()
+      .min(1, 'Request is blank, please write something.')
+      .max(1000, 'Prompt is too long for our Model'),
+   conversationId: z.uuid(),
+});
+
 app.post('/api/chat', async (req, res) => {
+   const parseResult = chatSchema.safeParse(req.body);
+   if (!parseResult.success) {
+      res.status(400).json(parseResult.error!.issues); // Can use z.treeifyError(parseResult.error) for simpler object of errors
+      return;
+   }
+
    const { prompt, conversationId } = req.body;
 
    const response = await client.responses.create({
