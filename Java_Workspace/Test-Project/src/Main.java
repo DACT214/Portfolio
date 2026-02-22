@@ -25,7 +25,7 @@ public class Main {
         System.out.println("==========");
 
         System.out.println("Selection Sort:");
-        int[] newList = selectionSort(testlist);
+        selectionSort(testlist);
         System.out.println("==========");
         System.out.println("Sorted:");
         printArray(testlist);
@@ -78,24 +78,7 @@ public class Main {
                 j--;
             }
             array[j+1]=temp;
-//			my stupid way of doing it...
-//			for(int j=i-1;j>=0; j--) {
-//
-//				if(temp<=array[j]) {
-//
-//					array[j+1] = array[j];
-//					if(j == 0) {
-//						array[j] = temp;
-//					}
-//
-//				}
-//
-//				if(temp>array[j]) {
-//					array[j+1]=temp;
-//					j = -1;
-//				}
-//
-//			}
+
             printArray(array);
         }
 
