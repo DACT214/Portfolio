@@ -1,8 +1,9 @@
 import axios from 'axios';
+import { useRef, useState, type KeyboardEvent } from 'react';
+import ReactMarkdown from 'react-markdown';
 import { useForm } from 'react-hook-form';
 import { Button } from './ui/button';
 import { FaArrowUp } from 'react-icons/fa';
-import { useRef, useState } from 'react';
 
 type FormData = {
    prompt: string;
@@ -32,7 +33,7 @@ const ChatBot = () => {
       setMessages((prev) => [...prev, { conent: data.message, role: 'bot' }]);
    };
 
-   const onKeyDown = (e: React.KeyboardEvent<HTMLFormElement>) => {
+   const onKeyDown = (e: KeyboardEvent<HTMLFormElement>) => {
       if (e.key === 'Enter' && !e.shiftKey) {
          e.preventDefault();
          handleSubmit(onSubmit)();
@@ -51,7 +52,7 @@ const ChatBot = () => {
                         : 'bg-gray-100 text-black self-start'
                   }`}
                >
-                  {message.conent}
+                  <ReactMarkdown>{message.conent}</ReactMarkdown>
                </p>
             ))}
          </div>
