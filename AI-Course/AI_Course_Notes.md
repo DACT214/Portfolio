@@ -725,11 +725,139 @@
       res.status(500).json({error:'Failed to generate a response.'})
     }
   ```
-> # Refactoring
-> We need to make sure our Applicaiton has seperation of concers. This will orginize our code into layers and sections within those layers.
-> ## Layers
-> - **Controllers**: The gateway of our app, and handle recieveing HTTP requests and Sending HTTP responses
-> - **Services**: The App's logic 
-> - **Repositories**: Store or Recieve Data
->
-> Refactoring our code, or coding with the above layer structure in mind allow our code to be more modular and scalable
+
+  > # Refactoring
+  >
+  > We need to make sure our Applicaiton has seperation of concers. This will orginize our code into layers and sections within those layers.
+  >
+  > ## Layers
+  >
+  > - **Controllers**: The gateway of our app, and handle recieveing HTTP requests and Sending HTTP responses
+  > - **Services**: The App's logic
+  > - **Repositories**: Store or Recieve Data
+  >
+  > Refactoring our code, or coding with the above layer structure in mind allow our code to be more modular and scalable
+
+### Creating Chat Bot UI
+
+#### Creating the text area
+
+We can do this in any way we want, this is just how it is done in this practice.
+
+- In our client package, we want to create a new component for our chatbot text input.
+  ![ChatBot.tsx](./Snapshots_and_Media/Chatbot_Component_tsx.png)
+  - In the new component we would want to create a component that allows the user to submit their prompt to our ai model. Thus, a `textarea` and a `submit` button are required
+
+  ```Typescript
+    import { Button } from './ui/button';
+    import { FaArrowUp } from 'react-icons/fa';
+
+    const ChatBot = () => {
+      return (
+          <div className="flex flex-col gap-2 items-end border-2 p-4 rounded-3xl">
+            <textarea
+                className="w-full resize-none"
+                placeholder="Ask Anything..."
+                maxLength={1000}
+            />
+            <Button className="rounded-full w-9 h-9">
+                <FaArrowUp />
+            </Button>
+          </div>
+      );
+    };
+
+    export default ChatBot;
+  ```
+
+  - > This inclueds both elements from shadcn and react-icons
+
+- Now that we have our chat bot text area set and ready to take in input, we need to add the functionality of submiting the form (cause thats what this is).
+  - We use [react-hook-forms](https://react-hook-form.com/) to handle forms here, and we import it into our component with `import { useForm } from 'react-hook-form';`
+  - After we want to set our FormData, this is the form object and we will use it to assign different inputs to repective FormData properties.
+  - Now we add the `useForm()` hook function set to our FormData, and we pass the `register` and `handleSubmit` function. This enables the registering of our form properties to the FormData object and our `onSubmit` handler.
+
+  ```Typescript
+    type FormData = {
+        prompt: string;
+      };
+
+    const ChatBot = () => {
+    const { register, handleSubmit } = useForm<FormData>();
+
+  return(
+    <form
+      onSubmit={handleSubmit(data=> console.log(data))}
+      className="flex flex-col gap-2 items-end border-2 p-4 rounded-3xl"
+    >
+      <textarea
+        // The register() has multiple properties that we can utilize, for this case we spread all of those properties with the `...`
+        {...register('prompt', {required: true})}
+        className="w-full resize-none"
+        placeholder="Ask Anything..."
+        maxLength={1000}
+      />
+      <Button
+        className="rounded-full w-9 h-9">
+        <FaArrowUp />
+      </Button>
+    </form>
+    );
+    };
+  ```
+
+- This is a basic implementation of what we want, ther is still validation, UX fine tuning, and basic edge-cases to consider.
+
+```typescript
+import { useForm } from 'react-hook-form';
+import { Button } from './ui/button';
+import { FaArrowUp } from 'react-icons/fa';
+
+type FormData = {
+   prompt: string;
+};
+
+const ChatBot = () => {
+   const { register, handleSubmit, reset, formState } = useForm<FormData>();
+
+  // function for on submit
+   const onSubmit = (data: FormData) => {
+      console.log(data);
+      reset();
+   };
+
+  // Handles the pressing enter key for submit,
+  // and not shift+enter
+   const onKeyDown = (e: React.KeyboardEvent<HTMLFormElement>) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+         e.preventDefault();
+         handleSubmit(onSubmit)();
+      }
+   };
+
+   return (
+      <form
+         onSubmit={handleSubmit(onSubmit)}
+         onKeyDown={onKeyDown}
+         className="flex flex-col gap-2 items-end border-2 p-4 rounded-3xl"
+      >
+         <textarea
+            {...register('prompt', {
+               required: true,
+               // validates if the the prompt has text
+               // and isn't just blank spaces
+               validate: (data) => data.trim().length > 0,
+            })}
+            className="w-full resize-none"
+            placeholder="Ask Anything..."
+            maxLength={1000}
+         />
+         <Button
+         //disable submit if the prompt isn't valid
+         disabled={!formState.isValid} className="rounded-full w-9 h-9">
+            <FaArrowUp />
+         </Button>
+      </form>
+   );
+};
+```
