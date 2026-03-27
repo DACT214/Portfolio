@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import ChatBot from './components/ChatBot';
+import ChatBot from './components/chat/ChatBot';
 
 function App() {
    const [message, setMessage] = useState('');
