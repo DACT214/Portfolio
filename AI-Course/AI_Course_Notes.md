@@ -861,3 +861,197 @@ const ChatBot = () => {
    );
 };
 ```
+
+# Prompt Engineering
+
+## Anatomy of a Good Prompt
+
+Good Prompts that produce a consistant high quality results include:
+
+- **Instructions**,
+- **Context**,
+- **Output Format**
+
+### Insturctions
+
+What you want thed model to do
+
+**example of a simple prompt w/out instructions**
+
+> "Summarize the following reviews."
+
+**example of a simple prompt w/instructions**
+
+> "**Summarize** the following reviews in **3 short bukllet points**, using **simple language**"
+
+### Context
+
+Background information: role, audience, data
+
+**example of a promt w/context**
+
+> "You are a senior software engineer. Read the code snippet below and explain it in plain English."
+
+### Output Format
+
+What kind of output do we want to recieve: text, list, JSON, etc.
+
+**example of prompt with instructions on what formate we want our output**
+
+> "Lable this message as 'spam' or 'not spam'. Return the result as **JSON with a single key called label**."
+
+**_Now all together:_**
+
+> "You are a helpful support agent. Summarize the following customer reviews in 2-3 bullet points. focus on pain points related to the login experience."
+
+## Providing Context
+
+Providing context, when working with LLM, is what seperates a LLM model with a wrapper over it, to a business focused chat bot that helps our users research our business
+
+We can do this through a few simple steps:
+
+- Tell the model who it's supposed to be, and it will take on that **role**.
+- Supply relevent **background information**.
+- Setting the **audience** so it knows who its writing for.
+- Tell what **tone** it should write its response.
+- Provide **Refrence Material**.
+  - When providing this, it is best to seperate it viusally from the instructions by using:
+    - `---`
+    - `"""`
+    - `<input>...</input>`
+
+## Ouput Format
+
+**Text**
+By default you'll get a response in plain TEXT, maybe with some limitations or guidance of the format or length of the response if specified.
+
+- It's good practice to let the model know to not get cut off by having the response complete with a complete sentence.
+
+**Markdown**
+Asking the model to reponse using markdown can retrun a more polished response and allow for better formating.
+
+> "Summarize this review in two bullet points using markdown. Highlight important details in bold."
+
+**Comma-Separated**
+This is another format that follows plain TEXT but follows a structure of listing items in a comma-seperated list.
+
+**JSON**
+To extract structured data we can use JSON format
+
+> "From the paragraph below, extract all product names and their prices.
+> Return a valid **JSON array of objects**. Each object should include:
+>
+> - a name (as a string), and
+> - a price (as a number, without currency symbols).
+>
+>   **Only return valid JSON. NO explanation or extra text.**"
+
+This allows us to recieve a valid JSON object that we can use in our applicaiton
+
+## Prompting Strategies
+
+There are 3 prompting strategies:
+
+- Zero-Shot
+- One-Shot
+- Few-Shot
+
+### Zero-Shot
+
+You give your model a task with no examples, only constraints.
+
+This is good when the data analysis and the output is simple because it can rely on the data that it was fed in making the model to begin with.
+
+### One-Shot
+
+You give your model a single example so it understands the format of the output you want.
+
+Zero-Shot prompts may lead the model into making its own structure of the output, this can be unsuable in your applicaiton. So giving it an example can show the model what the structure should look like.
+
+### Few-Shot
+
+This is giving a few short examples to cover your basis on how you want the model to read the data and how to respond to it.
+
+- The magic number of examples should be between 3-5 examples, but there isn't a standard number.
+
+Just make sure your examples are:
+
+- High Quality
+- Well Formatted
+- Diverse
+- Cover Edge Cases
+
+### Handling Errors
+
+Just like in software development, we test the "_happy path_" first then go ahead and give a bad input to see how it behaves.
+Same thing with prompt engineering. We'll write our prompt with the constraints and format we want, test for the oupout, once we have our happy path set, we test for bad input prompts.
+This includes:
+
+- Empty strings,
+- White spaces,
+- gibberish,
+- 1 or 2 random words,
+- extreamely long input,
+- content that's missing key details
+
+One way to Handle these edge cases is by returning an `error`
+
+- Be default the model will return an answer anyways, so its up to the engineer to set the boudaries of the model.
+
+We can say:
+
+> Summarize this product review.
+>
+> If the input is empty or not a valid review, respond with:
+>
+> {error: "Invalid input"}
+
+Another way is to ask a clarifying question when the question is vauge or lacking key details.
+
+### Reducing Hallucinations
+
+Hallucinations happen all the time with LLM, and its because LLMs don't know FACTS.
+They are only trained to perdict what should come next based on their training.
+
+Ways to reduce hallucinations in our responses:
+
+**Grounding**
+
+- Providing facts in the prompt.
+  > Here's our refund policy:
+  >
+  > ... the rfund policies ...
+  >
+  > Now, answer this customer's question:
+  >
+  > 'Can I cancel my ticket for tomorrow?'
+
+**Silence is better than Fiction**
+
+- Tell the model what to do when it doesn't know based on vague questions or insufficent data.
+  > If your're unsure, or the answer isn't available, say:
+  >
+  > 'Sorry, I don't have that information.'
+  >
+  > Do not guess or make up a response.
+
+**Linmit the Scope**
+
+- Tell the model not to answer unrealted questions.
+
+The model will try to answer any and all questions even if it doesn't relate to the scope of which it is ment for. This is how we end up with off topic coversations.
+
+> You are a support assistant for specific business.
+> Only answer questions related to business (... list of business realted things...)
+>
+> If the question is unrelated, response with:
+>
+> 'I'm here to help with business realted questions. Let me know if you have any questions about the busniess in relation to our policies, mission, etc.'
+
+**Don't over-trust the model**
+- Always sanitize or validate input and output using validation libraries like Zod
+- Avaid using AI for critical decisions without human review
+- Log the outputs and monitor for strange behaviors
+
+### Refining Prompts
+
